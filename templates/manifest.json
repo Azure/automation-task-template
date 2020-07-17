@@ -1,0 +1,7 @@
+[
+    "start-vm.json",
+    "send-monthly-cost.json",
+    "delete-old-blob.json",
+    "notify-when-resource-deleted.json",
+    "power-off-vm.json"
+]
