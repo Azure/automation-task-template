@@ -344,5 +344,6 @@
                 }
             }
         }
-    }
+    },
+    supportedResources: ["Microsoft.Compute/virtualMachines"]
 }
