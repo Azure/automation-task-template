@@ -345,5 +345,5 @@
             }
         }
     },
-    supportedResources: ["Microsoft.Compute/virtualMachines"]
+    "supportedResources": ["Microsoft.Compute/virtualMachines"]
 }
