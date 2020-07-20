@@ -143,5 +143,6 @@
                 }
             }
         }
-    }
+    },
+    "supportedResources": ["microsoft.storage/storageaccounts"]
 }
