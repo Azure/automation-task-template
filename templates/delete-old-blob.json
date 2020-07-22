@@ -2,7 +2,7 @@
     "id": "delete-blob",
     "description": "Deletes a blob of a certain age",
     "title": "Delete old blobs",
-    "iconUri": "https://connectoricons-prod.azureedge.net/azureblob/icon_1.0.1338.1980.png",
+    "iconType": "ScheduledTask",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
