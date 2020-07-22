@@ -2,7 +2,7 @@
     "id": "resource-delete",
     "description": "Sends email notification when resource is deleted",
     "title": "When resource is deleted",
-    "iconUri": "https://connectoricons-prod.azureedge.net/office365/icon_1.0.1356.2027.png",
+    "iconType": "Event",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
