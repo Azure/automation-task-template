@@ -2,7 +2,7 @@
     "id": "PowerOff_VM",
     "description": "Stop VM at a scheduled time of the day",
     "title": "Power off Virtual Machine",
-    "iconUri": "https://connectoricons-prod.azureedge.net/azurevm/icon_1.0.1337.1970.png",
+    "iconType": "ScheduledTask",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
