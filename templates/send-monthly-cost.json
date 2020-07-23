@@ -2,7 +2,7 @@
     "id": "send-monthly-cost",
     "description": "Sends the cost of the resource every month.",
     "title": "Send monthly cost for resource",
-    "iconUri": "https://connectoricons-prod.azureedge.net/arm/icon_1.0.1343.1989.png",
+    "iconType": "ScheduledTask",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
