@@ -116,5 +116,6 @@
                 }
             }
         }
-    }
+    },
+    "supportedResources": ["Microsoft.AppConfiguration/configurationStores", "Microsoft.ContainerRegistry/registries", "Microsoft.Devices/ioTHubs", "Microsoft.EventGrid/domains", "Microsoft.EventGrid/topics", "Microsoft.Eventhub/namespaces", "Microsoft.KeyVault/vaults", "Microsoft.MachineLearningServices/workspaces", "Microsoft.Maps/accounts", "Microsoft.Media/mediaServices", "Microsoft.Resources/resourceGroups", "Microsoft.Resources/subscriptions", "Microsoft.ServiceBus/namespaces", "Microsoft.SignalRService/signalR", "Microsoft.Storage/storageAccounts", "Microsoft.Web/serverFarms", "Microsoft.Web/sites"]
 }
