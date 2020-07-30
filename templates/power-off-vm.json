@@ -36,7 +36,7 @@
                                         "inputs": {
                                             "body": {
                                                 "Body": "<p><strong>FAILED <br>\n<br>\n</strong>Status: @{body('Get_virtual_machine')?['properties']?['provisioningState']}</p>",
-                                                "Subject": "Your automation task failed to stop virtual machine @{body('Get_virtual_machine_state')?['name']}",
+                                                "Subject": "Your automation task failed to stop virtual machine @{body('Get_virtual_machine')?['name']}",
                                                 "To": "@parameters('EmailID')"
                                             },
                                             "host": {
@@ -84,7 +84,7 @@
                     },
                     "type": "If"
                 },
-                "Get_virtual_machine_state": {
+                "Get_virtual_machine": {
                     "inputs": {
                         "host": {
                             "connection": {
@@ -334,7 +334,7 @@
                     "type": "bool",
                     "metadata":  {
                         "displayName": "Notify Me",
-                        "description": "Notify me if task is not completed",
+                        "description": "Notify me about task status",
                         "format": "notifier",
                         "required": false
                     }

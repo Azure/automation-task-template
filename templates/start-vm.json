@@ -30,13 +30,13 @@
                                     "type": "ApiConnection"
                                 }
                             },
-                            "else": {
+                            "else": { 
                                 "actions": {
                                     "Send_an_email_(V2)": {
                                         "inputs": {
                                             "body": {
                                                 "Body": "<p><strong>FAILED <br>\n<br>\n</strong>Status: @{body('Get_virtual_machine')?['properties']?['provisioningState']}</p>",
-                                                "Subject": "Your automation task failed to start virtual machine @{body('Get_virtual_machine_state')?['name']}",
+                                                "Subject": "Your automation task failed to start virtual machine @{body('Get_virtual_machine')?['name']}",
                                                 "To": "@parameters('EmailID')"
                                             },
                                             "host": {
@@ -84,7 +84,7 @@
                     },
                     "type": "If"
                 },
-                "Get_virtual_machine_state": {
+                "Get_virtual_machine": {
                     "inputs": {
                         "host": {
                             "connection": {
