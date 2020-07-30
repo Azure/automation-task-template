@@ -99,7 +99,7 @@
                     },
                     "runAfter": {
                         "Start_virtual_machine": [
-                            "Skipped",
+                            "Succeeded",
                             "Failed"
                         ]
                     },

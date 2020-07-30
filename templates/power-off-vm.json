@@ -92,14 +92,14 @@
                             }
                         },
                         "method": "get",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.Compute/virtualMachines/@{encodeURIComponent(parameters('ResourceVM'))}/powerOff",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.Compute/virtualMachines/@{encodeURIComponent(parameters('ResourceVM'))}",
                         "queries": {
                             "api-version": "2019-12-01"
                         }
                     },
                     "runAfter": {
                         "Power_off_virtual_machine": [
-                            "Skipped",
+                            "Succeeded",
                             "Failed"
                         ]
                     },
