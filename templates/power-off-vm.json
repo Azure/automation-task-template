@@ -7,51 +7,83 @@
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
             "actions": {
-                "Condition:_VM_State_Check": {
-                    "actions": {},
-                    "else": {
-                        "actions": {
-                            "Send_an_email_(V2)": {
-                                "inputs": {
-                                    "body": {
-                                        "Body": "<p>Virtual Machine start failed.<br>\n<br>\nStatus: @{body('Get_virtual_machine_state')?['properties']?['provisioningState']}</p>",
-                                        "Importance": "High",
-                                        "Subject": "Virtual Machine: @{body('Get_virtual_machine_state')?['name']}",
-                                        "To": "@parameters('EmailID')"
+                "Condition_VM_State_Check": {
+                    "actions": {
+                        "Condition_2": {
+                            "actions": {
+                                "Send_an_email_(V2)_2": {
+                                    "inputs": {
+                                        "body": {
+                                            "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: @{body('Get_virtual_machine')?['properties']?['provisioningState']}</p>",
+                                            "Subject": "Your automation task sucessfully stopped virtual machine @{body('Get_virtual_machine')?['name']}",
+                                            "To": "@parameters('EmailID')"
+                                        },
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['office365']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "path": "/v2/Mail"
                                     },
-                                    "host": {
-                                        "connection": {
-                                            "name": "@parameters('$connections')['office365']['connectionId']"
-                                        }
-                                    },
-                                    "method": "post",
-                                    "path": "/v2/Mail"
-                                },
-                                "runAfter": {},
-                                "type": "ApiConnection"
-                            }
+                                    "runAfter": {},
+                                    "type": "ApiConnection"
+                                }
+                            },
+                            "else": {
+                                "actions": {
+                                    "Send_an_email_(V2)": {
+                                        "inputs": {
+                                            "body": {
+                                                "Body": "<p><strong>FAILED <br>\n<br>\n</strong>Status: @{body('Get_virtual_machine')?['properties']?['provisioningState']}</p>",
+                                                "Subject": "Your automation task failed to stop virtual machine @{body('Get_virtual_machine')?['name']}",
+                                                "To": "@parameters('EmailID')"
+                                            },
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['office365']['connectionId']"
+                                                }
+                                            },
+                                            "method": "post",
+                                            "path": "/v2/Mail"
+                                        },
+                                        "runAfter": {},
+                                        "type": "ApiConnection"
+                                    }
+                                }
+                            },
+                            "expression": {
+                                "and": [
+                                    {
+                                        "equals": [
+                                            "@body('Get_virtual_machine')?['properties']?['provisioningState']",
+                                            "Succeeded"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "runAfter": {},
+                            "type": "If"
                         }
                     },
                     "expression": {
-                        "or": [
+                        "and": [
                             {
                                 "equals": [
-                                    "@if(equals(string(body('Get_virtual_machine_state')?['properties']?['provisioningState']),'Succeeded'),'yes','no')",
-                                    "'yes'"
+                                    "@parameters('Notify')",
+                                    true
                                 ]
                             }
                         ]
                     },
                     "runAfter": {
-                        "Get_virtual_machine_state": [
-                            "Skipped",
-                            "Failed",
+                        "Get_virtual_machine": [
                             "Succeeded"
                         ]
                     },
                     "type": "If"
                 },
-                "Get_virtual_machine_state": {
+                "Get_virtual_machine": {
                     "inputs": {
                         "host": {
                             "connection": {
@@ -66,7 +98,7 @@
                     },
                     "runAfter": {
                         "Power_off_virtual_machine": [
-                            "Skipped",
+                            "Succeeded",
                             "Failed"
                         ]
                     },
@@ -301,7 +333,7 @@
                     "type": "bool",
                     "metadata":  {
                         "displayName": "Notify Me",
-                        "description": "Notify me if task is not completed",
+                        "description": "Notify me about task status",
                         "format": "notifier",
                         "required": false
                     }
