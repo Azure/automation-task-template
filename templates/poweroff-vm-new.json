@@ -1,7 +1,7 @@
 {
-    "id": "PowerOff_VM_2",
+    "id": "PowerOff_VM_new",
     "description": "Stop VM at a scheduled time of the day",
-    "title": "Power off Virtual Machine - new",
+    "title": "Power off Virtual Machine",
     "iconType": "ScheduledTask",
     "data": {
         "definition": {
