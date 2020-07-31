@@ -1,7 +1,7 @@
 {
-    "id": "Start_VM_2",
+    "id": "Start_VM_new",
     "description": "Start VM at a scheduled time of the day",
-    "title": "Start Virtual Machine - new",
+    "title": "Start Virtual Machine",
     "iconType": "ScheduledTask",
     "data": {
         "definition": {
