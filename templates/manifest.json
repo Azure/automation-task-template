@@ -2,6 +2,6 @@
     "send-monthly-cost.json",
     "notify-when-resource-deleted.json",
     "delete-old-blob.json",
-    "start-vm-2.json",
-    "poweroff-vm.json"
+    "start-vm-new.json",
+    "poweroff-vm-new.json"
 ]
