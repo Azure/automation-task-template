@@ -47,7 +47,7 @@
                     "type": "String",
                     "metadata": {
                         "isLinkedResource": true,
-                        "sourceParameter": "name"
+                        "sourceParameter": "id"
 
                     }
                 },
