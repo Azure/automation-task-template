@@ -163,5 +163,5 @@
             }
         }
     },
-    "unsupportedResources": ["Microsoft.Resources/resourceGroups"]
+    "excludeResources": ["Microsoft.Resources/resourceGroups"]
 }
