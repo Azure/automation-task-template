@@ -295,5 +295,5 @@
       }
     }
   },
-    "supportedResources": ["Microsoft.DocumentDb"]
+    "supportedResources": ["Microsoft.DocumentDb/databaseAccounts"]
 }
