@@ -5,6 +5,6 @@
     "start-vm-new.json",
     "poweroff-vm-new.json",
     "cosmos-send-query-result.json",
-    "custom-delete-old-blob.json"
+    "custom-delete-old-blob.json",
     "cosmos-duplicate.json"
 ]
