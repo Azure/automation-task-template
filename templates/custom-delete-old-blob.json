@@ -1,0 +1,146 @@
+{
+    "id": "Priti_Test_template",
+    "title": "Priti Test template",
+    "description": "Testing template from UX",
+    "iconType": "ScheduledTask",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "$connections": {
+                    "defaultValue": {},
+                    "type": "Object"
+                },
+                "BlobFolder": {
+                    "type": "String",
+                    "metadata": {
+                        "displayName": "Azure Blob Container",
+                        "required": true,
+                        "description": "Provide value for blob container"
+                    }
+                },
+                "ExpirationAge": {
+                    "type": "Int",
+                    "metadata": {
+                        "displayName": "Blobs' Expiration Age",
+                        "required": true,
+                        "description": "Provide expiration age for blobs, this is negative integer"
+                    }
+                },
+                "Time": {
+                    "type": "String",
+                    "allowedValues": [
+                        "Month",
+                        "Week",
+                        "Day",
+                        "Hour",
+                        "Minute",
+                        "Seconds"
+                    ],
+                    "metadata": {
+                        "displayName": "Frequency",
+                        "required": true,
+                        "description": "How often should schedule run. i.e. Weekly"
+                    }
+                }
+            },
+            "triggers": {
+                "Recurrence": {
+                    "recurrence": {
+                        "frequency": "Day",
+                        "interval": 1
+                    },
+                    "type": "Recurrence"
+                }
+            },
+            "actions": {
+                "For_each": {
+                    "foreach": "@body('List_blobs')?['value']",
+                    "actions": {
+                        "Condition": {
+                            "actions": {
+                                "Delete_blob": {
+                                    "runAfter": {},
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['azureblob']['connectionId']"
+                                            }
+                                        },
+                                        "method": "delete",
+                                        "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Id']))}"
+                                    },
+                                    "description": "If blob is older than the expiration age, delete it"
+                                }
+                            },
+                            "runAfter": {},
+                            "expression": "@less(ticks(items('For_each')?['LastModified']), ticks(addDays(utcnow(), if(equals(parameters('Time'),'Days'), variables('ExpirationAgeInDays'), if(equals(parameters('Time'), 'Weeks'), mul(variables('ExpirationAgeInDays'), 7), if(equals(parameters('Time'),'Months'), mul(variables('ExpirationAgeInDays'), 30), variables('ExpirationAgeInDays')))))))",
+                            "type": "If",
+                            "description": "Check LastModified timestamp and whether older than the expiration age variable"
+                        }
+                    },
+                    "runAfter": {
+                        "List_blobs": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "Foreach",
+                    "description": "Scan all blobs in this folder"
+                },
+                "List_blobs": {
+                    "runAfter": {
+                        "Set_expiration_age_variable_": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['azureblob']['connectionId']"
+                            }
+                        },
+                        "method": "get",
+                        "path": "/datasets/default/foldersV2/@{encodeURIComponent(encodeURIComponent(parameters('BlobFolder')))}",
+                        "queries": {
+                            "useFlatListing": true
+                        }
+                    },
+                    "runtimeConfiguration": {
+                        "paginationPolicy": {
+                            "minimumItemCount": 5000
+                        }
+                    }
+                },
+                "Set_expiration_age_variable_": {
+                    "runAfter": {},
+                    "type": "InitializeVariable",
+                    "inputs": {
+                        "variables": [
+                            {
+                                "name": "ExpirationAgeInDays",
+                                "type": "integer",
+                                "value": "@parameters('ExpirationAge')"
+                            }
+                        ]
+                    },
+                    "description": "A variable to configure the auto expiration age in days. Configured in negative number. Default is -30 (30 days old)."
+                }
+            },
+            "outputs": {}
+        },
+        "parameters": {
+            "$connections": {
+                "value": {
+                    "azureblob": {
+                        "id": "/subscriptions/b3bd38c0-a0bd-4834-afc3-f1d02918f161/providers/Microsoft.Web/locations/westus/managedApis/azureblob",
+                        "connectionName": "",
+                        "connectionId": ""
+                    }
+                }
+            }
+        }
+    }
+}
