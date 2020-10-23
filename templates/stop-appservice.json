@@ -53,7 +53,7 @@
                     "defaultValue": {},
                     "type": "Object"
                 },
-                "Email to": {
+                "Email": {
                     "type": "String",
                     "metadata": {
                         "displayName": "Email ID",
