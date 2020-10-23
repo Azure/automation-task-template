@@ -1,0 +1,150 @@
+{
+    "id": "Stop_Appservice_at_interval",
+    "title": "Stop Appservice at interval",
+    "description": "Test template for stopping appserivice",
+    "iconType": "ScheduledTask",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "Invoke_resource_operation": {
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['arm']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubId'))}/resourcegroups/@{encodeURIComponent(parameters('RGName'))}/providers/@{encodeURIComponent('Microsoft.Web')}/@{encodeURIComponent('sites/',parameters('SiteName'))}/@{encodeURIComponent('stop')}",
+                        "queries": {
+                            "x-ms-api-version": "2018-11-01"
+                        }
+                    },
+                    "runAfter": {},
+                    "type": "ApiConnection"
+                },
+                "Send_an_email_(V2)": {
+                    "inputs": {
+                        "body": {
+                            "Body": "<p>Appservice: @{parameters('SiteName')} is successfully stopped...<br>\n<br>\n<br>\n</p>",
+                            "Subject": "Appservice: @{parameters('SiteName')}stopped",
+                            "To": "@parameters('Email')"
+                        },
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['office365']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "path": "/v2/Mail"
+                    },
+                    "runAfter": {
+                        "Invoke_resource_operation": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "ApiConnection"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "parameters": {
+                "$connections": {
+                    "defaultValue": {},
+                    "type": "Object"
+                },
+                "Email to": {
+                    "type": "String",
+                    "metadata": {
+                        "displayName": "Email ID",
+                        "required": true
+                    }
+                },
+                "Frequency": {
+                    "type": "String",
+                    "allowedValues": [
+                        "Month",
+                        "Week",
+                        "Day",
+                        "Hour",
+                        "Minute",
+                        "Seconds"
+                    ],
+                    "metadata": {
+                        "displayName": "Frequency",
+                        "required": true,
+                        "description": "How often should schedule run. i.e. Weekly"
+                    }
+                },
+                "Interval": {
+                    "type": "Int",
+                    "metadata": {
+                        "displayName": "Interval",
+                        "format": "number",
+                        "required": true,
+                        "description": "Time interval for recurrence"
+                    }
+                },
+                "RGName": {
+                    "type": "String",
+                    "metadata": {
+                        "isLinkedResource": true,
+                        "sourceParameter": "resourceGroup"
+                    }
+                },
+                "SiteName": {
+                    "type": "String",
+                    "metadata": {
+                        "isLinkedResource": true,
+                        "sourceParameter": "name"
+                    }
+                },
+                "SubId": {
+                    "type": "String",
+                    "metadata": {
+                        "isLinkedResource": true,
+                        "sourceParameter": "subscriptionId"
+                    }
+                },
+                "scheduleTime": {
+                    "type": "String",
+                    "defaultValue": "2020-10-24T01:00:00Z",
+                    "metadata": {
+                        "displayName": "Schedule Time",
+                        "format": "timeFormat",
+                        "required": false
+                    }
+                }
+            },
+            "triggers": {
+                "Recurrence": {
+                    "recurrence": {
+                        "frequency": "@parameters('Frequency')",
+                        "interval":  "@parameters('Interval')",
+                        "startTime": "@formatDateTime(parameters('scheduleTime'), 'yyyy-MM-ddTHH:mm:ssZ')"
+                    },
+                    "type": "Recurrence"
+                }
+            }
+        },
+        "parameters": {
+            "$connections": {
+                "value": {
+                    "office365": {
+                        "connectionId": "",
+                        "connectionName": "",
+                        "id": "/subscriptions/b3bd38c0-a0bd-4834-afc3-f1d02918f161/providers/Microsoft.Web/locations/westus/managedApis/office365"
+                    },
+                    "arm": {
+                        "connectionId": "",
+                        "connectionName": "",
+                        "id": "/subscriptions/b3bd38c0-a0bd-4834-afc3-f1d02918f161/providers/Microsoft.Web/locations/westus/managedApis/arm"
+                    }
+                }
+            }
+        }
+    },
+    "supportedResources": [
+        "Microsoft.Web/sites"
+    ]
+}

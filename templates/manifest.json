@@ -6,5 +6,6 @@
     "poweroff-vm-new.json",
     "notify-on-sql.json",
     "cosmos-send-query-result.json",
-    "cosmos-duplicate.json"
+    "cosmos-duplicate.json",
+    "stop-appservice.json"
 ]
