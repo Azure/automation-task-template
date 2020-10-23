@@ -43,9 +43,7 @@
                 },
                 "Email to": {
                     "type": "String",
-                    "metadata": {
-                        "required": true
-                    }
+                    "defaultValue": "contoso@microsoft.com"
                 },
                 "Frequency": {
                     "type": "String",
