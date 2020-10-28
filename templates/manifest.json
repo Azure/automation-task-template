@@ -7,5 +7,6 @@
     "notify-on-sql.json",
     "cosmos-send-query-result.json",
     "cosmos-duplicate.json",
-    "stop-appservice.json"
+    "stop-appservice.json",
+    "notify-sql.json"
 ]

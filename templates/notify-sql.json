@@ -1,0 +1,130 @@
+{
+    "id": "New_template_by_priti",
+    "title": "New template by priti",
+    "description": "Some description",
+    "iconType": "Event",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+                "$connections": {
+                    "defaultValue": {},
+                    "type": "Object"
+                },
+                "DbName": {
+                    "type": "String",
+                    "defaultValue": "pritidb",
+                    "metadata": {
+                        "required": false
+                    }
+                },
+                "Email to": {
+                    "type": "String",
+                    "defaultValue": "contoso@microsoft.com",
+                    "metadata": {
+                        "required": false
+                    }
+                },
+                "Frequency": {
+                    "type": "String",
+                    "allowedValues": [
+                        "Month",
+                        "Week",
+                        "Day",
+                        "Hour",
+                        "Minute",
+                        "Seconds"
+                    ],
+                    "metadata": {
+                        "displayName": "Frequency",
+                        "required": true,
+                        "description": "How often should schedule run. i.e. Weekly"
+                    }
+                },
+                "Interval": {
+                    "type": "Int",
+                    "metadata": {
+                        "displayName": "Interval",
+                        "format": "number",
+                        "required": true,
+                        "description": "Time interval for recurrence"
+                    }
+                },
+                "ServerName": {
+                    "type": "String",
+                    "metadata": {
+                        "isLinkedResource": true,
+                        "sourceParameter": "name"
+                    }
+                },
+                "TableName": {
+                    "type": "String",
+                    "defaultValue": "abc",
+                    "metadata": {
+                        "required": false
+                    }
+                }
+            },
+            "triggers": {
+                "When_an_item_is_created_(V2)": {
+                    "recurrence": {
+                        "frequency": "Month",
+                        "interval": 1
+                    },
+                    "splitOn": "@triggerBody()?['value']",
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['sql_1']['connectionId']"
+                            }
+                        },
+                        "method": "get",
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(parameters('ServerName')))},@{encodeURIComponent(encodeURIComponent(parameters('DbName')))}/tables/@{encodeURIComponent(encodeURIComponent(parameters('TableName')))}/onnewitems"
+                    }
+                }
+            },
+            "actions": {
+                "Send_an_email_(V2)": {
+                    "runAfter": {},
+                    "type": "ApiConnection",
+                    "inputs": {
+                        "body": {
+                            "Body": "<p>The following new entry was added<br>\n<br>\n<br>\n@{triggerBody()}</p>",
+                            "Subject": "A new entry was created in table Customer in database ContosoOrders",
+                            "To": "@parameters('Email')"
+                        },
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['office365']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "path": "/v2/Mail"
+                    }
+                }
+            },
+            "outputs": {}
+        },
+        "parameters": {
+            "$connections": {
+                "value": {
+                    "office365": {
+                        "id": "/subscriptions/b3bd38c0-a0bd-4834-afc3-f1d02918f161/providers/Microsoft.Web/locations/eastus/managedApis/office365",
+                        "connectionName": "",
+                        "connectionId": ""
+                    },
+                    "sql_1": {
+                        "id": "/subscriptions/b3bd38c0-a0bd-4834-afc3-f1d02918f161/providers/Microsoft.Web/locations/eastus/managedApis/sql",
+                        "connectionName": "",
+                        "connectionId": ""
+                    }
+                }
+            }
+        }
+    },
+    "supportedResources": [
+        "Microsoft.Sql/servers"
+    ]
+}
