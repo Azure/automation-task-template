@@ -1,7 +1,6 @@
 [
     "send-monthly-cost.json",
     "notify-when-resource-deleted.json",
-    "delete-old-blob.json",
     "start-vm-new.json",
     "poweroff-vm-new.json",
     "cosmos-send-query-result.json"
