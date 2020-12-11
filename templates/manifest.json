@@ -3,5 +3,6 @@
     "notify-when-resource-deleted.json",
     "start-vm-new.json",
     "poweroff-vm-new.json",
-    "cosmos-send-query-result.json"
+    "cosmos-send-query-result.json",
+    "delete-old-blob.json"
 ]
