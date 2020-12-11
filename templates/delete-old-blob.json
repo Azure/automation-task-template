@@ -67,7 +67,7 @@
                     "type": "ApiConnection"
                 },
                 "Set_expiration_age_variable_": {
-                    "description": "A variable to configure the auto expiration age in days. Configured in negative number. Default is -30 (30 days old).",
+                    "description": "A variable to configure the auto expiration age in days. Default is 30 (30 days old).",
                     "inputs": {
                         "variables": [
                             {
