@@ -140,7 +140,7 @@
                     }
                 },
                 "TimeZone": {
-                    "defaultValue": "Pacific Standard Time",
+                    "defaultValue": "UTC",
                     "allowedValues": [
                         "Dateline Standard Time",
                         "UTC-11",
