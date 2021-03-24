@@ -136,7 +136,7 @@
                         "displayName": "Stop Time",
                         "required": true,
                         "format": "timeFormat",
-                        "description": "Select start time to Power On Virtual Machine"
+                        "description": "Select time to Power Off Virtual Machine"
                     }
                 },
                 "TimeZone": {
@@ -334,7 +334,7 @@
                     "recurrence": {
                         "frequency":  "@parameters('Frequency')",
                         "interval":  "@parameters('Interval')",
-                        "startTime": "@formatDateTime(parameters('stopTime'), 'yyyy-MM-ddTHH:mm:ssZ')",
+                        "startTime": "@formatDateTime(parameters('stopTime'), 'yyyy-MM-ddTHH:mm:ss')",
                         "timeZone": "@parameters('TimeZone')"
                     },
                     "type": "Recurrence"
