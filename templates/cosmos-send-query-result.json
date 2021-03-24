@@ -271,7 +271,7 @@
           "recurrence": {
             "frequency": "@parameters('Frequency')",
             "interval": "@parameters('Interval')",
-            "startTime": "@formatDateTime(parameters('ScheduleTime'), 'yyyy-MM-ddTHH:mm:ssZ')",
+            "startTime": "@formatDateTime(parameters('ScheduleTime'), 'yyyy-MM-ddTHH:mm:ss')",
             "timeZone": "@parameters('TimeZone')"
           },
           "type": "Recurrence"
