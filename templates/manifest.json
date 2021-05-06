@@ -1,4 +1,5 @@
 [
+    "execute-query-send-result.json",
     "send-monthly-cost.json",
     "notify-when-resource-deleted.json",
     "start-vm-new.json",
