@@ -1,7 +1,7 @@
 {
-    "id": "execute-query-send-result",
-    "title": "execute-query-send-result",
-    "description": "Executes and sends you the query results on recurrence",
+    "id": "Send_query_result_via_e-mail",
+    "title": "Send query result via e-mail",
+    "description": "Execute a query and send email on schedule",
     "iconType": "ScheduledTask",
     "data": {
         "definition": {
@@ -18,7 +18,7 @@
                             }
                         },
                         "method": "post",
-                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('sql-server-tasks.database.windows.net'))},@{encodeURIComponent(encodeURIComponent('sql-sample-tasks'))}/query/sql"
+                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent(parameters('ServerID')))},@{encodeURIComponent(encodeURIComponent(parameters('DatabaseID')))}/query/sql"
                     },
                     "runAfter": {},
                     "type": "ApiConnection"
@@ -27,8 +27,8 @@
                     "inputs": {
                         "body": {
                             "Body": "<p>@{body('ExecuteQuery')?['resultsets']}<br>\n<br>\n<br>\n<br>\n<br>\n<br>\n</p>",
-                            "Subject": "Query results from ",
-                            "To": "shahparth@microsoft.com"
+                            "Subject": "Query results from @{parameters('DatabaseID')}",
+                            "To": "@parameters('Email To')"
                         },
                         "host": {
                             "connection": {
@@ -53,20 +53,20 @@
                     "defaultValue": {},
                     "type": "Object"
                 },
-                "Database name": {
+                "DatabaseID": {
                     "type": "String",
                     "metadata": {
                         "isLinkedResource": true,
-                        "sourceParameter": "name"
+                        "sourceParameter": "id"
                     }
                 },
-                "EmailID": {
+                "Email To": {
                     "type": "String",
                     "defaultValue": "email@example.com",
                     "metadata": {
                         "displayName": "Email To",
                         "required": false,
-                        "description": "Query results will be sent to"
+                        "description": "Send the query results to this email"
                     }
                 },
                 "Frequency": {
@@ -101,14 +101,20 @@
                         "sourceParameter": "resourceGroup"
                     }
                 },
-                "Start Time": {
+                "ScheduleTime": {
                     "type": "String",
-                    "defaultValue": "start ",
+                    "defaultValue": "start time",
                     "metadata": {
                         "displayName": "Time",
                         "format": "timeFormat",
                         "required": false,
-                        "description": "Starts executing query on this time"
+                        "description": "Runs the query at this time"
+                    }
+                },
+                "ServerID": {
+                    "type": "String",
+                    "metadata": {
+                        "isLinkedResource": true
                     }
                 },
                 "SubscriptionID": {
@@ -261,19 +267,21 @@
                 },
                 "queryString": {
                     "type": "String",
-                    "defaultValue": "query",
+                    "defaultValue": "SELECT * FROM table",
                     "metadata": {
                         "displayName": "Query Text",
                         "required": false,
-                        "description": "Enter your SQL query"
+                        "description": "Query to be executed"
                     }
                 }
             },
             "triggers": {
                 "Recurrence": {
                     "recurrence": {
-                        "frequency": "Minute",
-                        "interval": 3
+                        "frequency": "@parameters('Frequency')",
+                        "interval": "@parameters('Interval')",
+                        "startTime": "@formatDateTime(parameters('ScheduleTime'), 'yyyy-MM-ddTHH:mm:ss')",
+                        "timeZone": "@parameters('TimeZone')"
                     },
                     "type": "Recurrence"
                 }
@@ -285,12 +293,12 @@
                     "office365": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus/managedApis/office365"
+                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/office365"
                     },
                     "sql": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus/managedApis/sql"
+                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/sql"
                     }
                 }
             }
@@ -298,8 +306,5 @@
     },
     "supportedResources": [
         "Microsoft.Sql/servers/databases"
-    ],
-    "excludeResources": [
-        "Microsoft.Resources/resourceGroups"
     ]
 }
