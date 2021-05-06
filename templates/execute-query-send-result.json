@@ -54,11 +54,7 @@
                     "type": "Object"
                 },
                 "DatabaseID": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "id"
-                    }
+                    "type": "String"
                 },
                 "Email To": {
                     "type": "String",
@@ -112,10 +108,7 @@
                     }
                 },
                 "ServerID": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true
-                    }
+                    "type": "String"
                 },
                 "SubscriptionID": {
                     "type": "String",
