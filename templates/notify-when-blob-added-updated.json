@@ -1,0 +1,103 @@
+{
+    "id": "Notify_when_a_blob_is_added_or_updated",
+    "title": "Notify when a blob is added or updated",
+    "description": "Sends an email when a blob is added or updated to container",
+    "iconType": "Event",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "Send_an_email_(V2)": {
+                    "inputs": {
+                        "body": {
+                            "Body": "<p>Here are the list of files that were added or updated:<br>\n@{triggerBody()?['Path']}</p>",
+                            "Subject": "New content added  @{triggerBody()?['DisplayName']}",
+                            "To": "@parameters('emailTo')"
+                        },
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['office365']['connectionId']"
+                            }
+                        },
+                        "method": "post",
+                        "path": "/v2/Mail"
+                    },
+                    "runAfter": {},
+                    "type": "ApiConnection"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "parameters": {
+                "$connections": {
+                    "defaultValue": {},
+                    "type": "Object"
+                },
+                "BlobContainer": {
+                    "type": "String",
+                    "defaultValue": "/container",
+                    "metadata": {
+                        "displayName": "Container name",
+                        "required": true,
+                        "description": "Container in whcih blobs are residing"
+                    }
+                },
+                "emailTo": {
+                    "type": "String",
+                    "metadata": {
+                        "displayName": "Notify me on",
+                        "defaultValue": "user@contoso.com",
+                        "required": true,
+                        "description": "Enter email id to be notified on"
+                    }
+                }
+            },
+            "triggers": {
+                "When_a_blob_is_added_or_modified_(properties_only)": {
+                    "inputs": {
+                        "host": {
+                            "connection": {
+                                "name": "@parameters('$connections')['azureblob_1']['connectionId']"
+                            }
+                        },
+                        "method": "get",
+                        "path": "/datasets/default/triggers/batch/onupdatedfile",
+                        "queries": {
+                            "checkBothCreatedAndModifiedDateTime": false,
+                            "folderId": "@parameters('BlobContainer')",
+                            "maxFileCount": 10
+                        }
+                    },
+                    "metadata": {
+                        "JTJmY29udGFpbmVy": "/container"
+                    },
+                    "recurrence": {
+                        "frequency": "Minute",
+                        "interval": 3
+                    },
+                    "splitOn": "@triggerBody()",
+                    "type": "ApiConnection"
+                }
+            }
+        },
+        "parameters": {
+            "$connections": {
+                "value": {
+                    "azureblob_1": {
+                        "connectionId": "",
+                        "connectionName": "",
+                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/azureblob"
+                    },
+                    "office365": {
+                        "connectionId": "",
+                        "connectionName": "",
+                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/office365"
+                    }
+                }
+            }
+        }
+    },
+    "supportedResources": [
+        "Microsoft.Storage/storageAccounts"
+    ]
+}
