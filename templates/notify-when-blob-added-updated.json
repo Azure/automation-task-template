@@ -1,6 +1,6 @@
 {
     "id": "Notify_when_a_blob_is_added_or_updated",
-    "title": "Notify when a blob is added or updated",
+    "title": "Notify when a change is made in container",
     "description": "Sends an email when a blob is added or updated to container",
     "iconType": "Event",
     "data": {
