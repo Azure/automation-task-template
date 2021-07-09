@@ -1,5 +1,5 @@
 {
-    "id": "send-monthly-cost-new",
+    "id": "send-monthly-cost",
     "description": "Sends the cost of the resource every month.",
     "title": "Send monthly cost for resource",
     "iconType": "ScheduledTask",
