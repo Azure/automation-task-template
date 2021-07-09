@@ -1,5 +1,5 @@
 {
-    "id": "send-monthly-cost",
+    "id": "send-monthly-cost-new",
     "description": "Sends the cost of the resource every month.",
     "title": "Send monthly cost for resource",
     "iconType": "ScheduledTask",
@@ -16,17 +16,56 @@
                     },
                     "type": "Compose"
                 },
-                "Filter_array": {
-                    "inputs": {
-                        "from": "@body('Invoke_resource_operation_in_provider')?['properties']?['rows']",
-                        "where": "@equals(item()[3], toLower(parameters('ResourceId')))"
-                    },
+                "Compose_2": {
+                    "inputs": "@union(variables('Resources'), body('Invoke_resource_operation_in_provider')?['properties']?['rows'])",
                     "runAfter": {
                         "Invoke_resource_operation_in_provider": [
                             "Succeeded"
                         ]
                     },
+                    "type": "Compose"
+                },
+                "Filter_array": {
+                    "inputs": {
+                        "from": "@variables('Resources')",
+                        "where": "@equals(item()[3], toLower(parameters('ResourceId')))"
+                    },
+                    "runAfter": {
+                        "Until": [
+                            "Succeeded"
+                        ]
+                    },
                     "type": "Query"
+                },
+                "Initialize_variable": {
+                    "inputs": {
+                        "variables": [
+                            {
+                                "name": "Resources",
+                                "type": "array",
+                                "value": []
+                            }
+                        ]
+                    },
+                    "runAfter": {},
+                    "type": "InitializeVariable"
+                },
+                "Initialize_variable_2": {
+                    "inputs": {
+                        "variables": [
+                            {
+                                "name": "NextLink",
+                                "type": "string",
+                                "value": "\"\""
+                            }
+                        ]
+                    },
+                    "runAfter": {
+                        "Initialize_variable": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "InitializeVariable"
                 },
                 "Invoke_resource_operation_in_provider": {
                     "inputs": {
@@ -80,7 +119,11 @@
                             "x-ms-api-version": "2019-11-01"
                         }
                     },
-                    "runAfter": {},
+                    "runAfter": {
+                        "Initialize_variable_2": [
+                            "Succeeded"
+                        ]
+                    },
                     "type": "ApiConnection"
                 },
                 "Send_an_email_(V2)": {
@@ -104,6 +147,84 @@
                         ]
                     },
                     "type": "ApiConnection"
+                },
+                "Set_variable": {
+                    "inputs": {
+                        "name": "NextLink",
+                        "value": "@body('Invoke_resource_operation_in_provider')?['properties']?['nextLink']"
+                    },
+                    "runAfter": {
+                        "Set_variable_2": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "SetVariable"
+                },
+                "Set_variable_2": {
+                    "inputs": {
+                        "name": "Resources",
+                        "value": "@outputs('Compose_2')"
+                    },
+                    "runAfter": {
+                        "Compose_2": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "SetVariable"
+                },
+                "Until": {
+                    "actions": {
+                        "Compose_3": {
+                            "inputs": "@union(variables('Resources'), body('Invoke_resource_operation_in_provider')?['properties']?['rows'])",
+                            "runAfter": {
+                                "Invoke_an_HTTP_request": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose"
+                        },
+                        "Invoke_an_HTTP_request": {
+                            "inputs": {
+                                "body": {
+                                    "body": "@{base64(concat('{','\n','  \"dataSet\": {','\n','    \"aggregation\": {','\n','      \"totalCost\": {','\n','        \"function\": \"Sum\",','\n','        \"name\": \"PreTaxCost\"','\n','      },','\n','      \"totalCostUSD\": {','\n','        \"function\": \"Sum\",','\n','        \"name\": \"PreTaxCostUSD\"','\n','      }','\n','    },','\n','    \"granularity\": \"None\",','\n','    \"grouping\": [','\n','      {','\n','        \"name\": \"ResourceGroupName\",','\n','        \"type\": \"Dimension\"','\n','      },','\n','      {','\n','        \"name\": \"ResourceId\",','\n','        \"type\": \"Dimension\"','\n','      },','\n','      {','\n','        \"name\": \"ChargeType\",','\n','        \"type\": \"Dimension\"','\n','      },','\n','      {','\n','        \"name\": \"PublisherType\",','\n','        \"type\": \"Dimension\"','\n','      }','\n','    ]','\n','  },','\n','  \"timePeriod\": {','\n','    \"from\": \"2021-04-28T19:35:48.8694827Z\",','\n','    \"to\": \"2021-05-28T19:35:48.8694827Z\"','\n','  },','\n','  \"timeframe\": \"Custom\",','\n','  \"type\": \"ActualCost\"','\n','}'))}",
+                                    "method": "POST",
+                                    "url": "@variables('NextLink')"
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['webcontents']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/codeless/InvokeHttp"
+                            },
+                            "runAfter": {},
+                            "type": "ApiConnection"
+                        },
+                        "Set_variable_3": {
+                            "inputs": {
+                                "name": "Resources",
+                                "value": "@outputs('Compose_3')"
+                            },
+                            "runAfter": {
+                                "Compose_3": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "SetVariable"
+                        }
+                    },
+                    "expression": "@equals(body('Invoke_resource_operation_in_provider')?['properties']?['nextLink'], '\"\"')",
+                    "limit": {
+                        "count": 60,
+                        "timeout": "PT1H"
+                    },
+                    "runAfter": {
+                        "Set_variable": [
+                            "Succeeded"
+                        ]
+                    },
+                    "type": "Until"
                 }
             },
             "contentVersion": "1.0.0.0",
@@ -114,26 +235,26 @@
                     "type": "Object"
                 },
                 "EmailId": {
-                    "type": "String",
                     "metadata": {
-                        "required": true,
                         "displayName": "Email sent to",
-                        "placeholder": "Enter the email address to send email."
-                    }
+                        "placeholder": "Enter the email address to send email.",
+                        "required": true
+                    },
+                    "type": "String"
                 },
                 "ResourceId": {
-                    "type": "String",
                     "metadata": {
                         "isLinkedResource": true,
                         "sourceParameter": "id"
-                    }
+                    },
+                    "type": "String"
                 },
                 "SubscriptionId": {
-                    "type": "String",
                     "metadata": {
                         "isLinkedResource": true,
                         "sourceParameter": "subscriptionId"
-                    }
+                    },
+                    "type": "String"
                 }
             },
             "triggers": {
@@ -152,14 +273,28 @@
                     "arm_1": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus2/managedApis/arm"
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/arm"
                     },
                     "office365": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus2/managedApis/office365"
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/office365"
+                    },
+                    "webcontents": {
+                        "connectionId": "",
+                        "connectionName": "",
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/webcontents"
                     }
                 }
+            },
+            "EmailId": {
+                "value": "vikanand@microsoft.com"
+            },
+            "ResourceId": {
+                "value": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/resourceGroups/functiondevvikashfn11/providers/Microsoft.Storage/storageAccounts/functiondevvikashfn11"
+            },
+            "SubscriptionId": {
+                "value": "f34b22a3-2202-4fb1-b040-1332bd928c84"
             }
         }
     },
