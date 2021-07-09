@@ -273,28 +273,19 @@
                     "arm_1": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/arm"
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westus2/managedApis/arm"
                     },
                     "office365": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/office365"
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westus2/managedApis/office365"
                     },
                     "webcontents": {
                         "connectionId": "",
                         "connectionName": "",
-                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westcentralus/managedApis/webcontents"
+                        "id": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/providers/Microsoft.Web/locations/westus2/managedApis/webcontents"
                     }
                 }
-            },
-            "EmailId": {
-                "value": "vikanand@microsoft.com"
-            },
-            "ResourceId": {
-                "value": "/subscriptions/f34b22a3-2202-4fb1-b040-1332bd928c84/resourceGroups/functiondevvikashfn11/providers/Microsoft.Storage/storageAccounts/functiondevvikashfn11"
-            },
-            "SubscriptionId": {
-                "value": "f34b22a3-2202-4fb1-b040-1332bd928c84"
             }
         }
     },
