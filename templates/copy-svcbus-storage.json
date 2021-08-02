@@ -3,6 +3,7 @@
     "title": "Copy new messages from Service bus queue to Storage container",
     "description": "When a new message arrives in queue, create a blob to store",
     "iconType": "Event",
+    "skuType": "Consumption",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -11,24 +12,6 @@
                 "$connections": {
                     "defaultValue": {},
                     "type": "Object"
-                },
-                "Container name": {
-                    "type": "String",
-                    "defaultValue": "container",
-                    "metadata": {
-                        "displayName": "Blob Container",
-                        "required": false,
-                        "description": "Stroage container where messages will be copied to"
-                    }
-                },
-                "Queue name": {
-                    "type": "String",
-                    "defaultValue": "queue",
-                    "metadata": {
-                        "displayName": "Queue",
-                        "required": false,
-                        "description": "Name of service bus queue which will receive messages"
-                    }
                 }
             },
             "triggers": {
@@ -80,19 +63,35 @@
             },
             "outputs": {}
         },
+        "connections": {
+            "azureblob": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus/managedApis/azureblob"
+            },
+            "servicebus": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus/managedApis/servicebus"
+            }
+        },
         "parameters": {
-            "$connections": {
-                "value": {
-                    "azureblob": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/azureblob"
-                    },
-                    "servicebus": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Web/locations/westus/managedApis/servicebus"
-                    }
+            "Container name": {
+                "type": "String",
+                "defaultValue": "container",
+                "metadata": {
+                    "displayName": "Blob Container",
+                    "required": false,
+                    "description": "Stroage container where messages will be copied to"
+                }
+            },
+            "Queue name": {
+                "type": "String",
+                "defaultValue": "queue",
+                "metadata": {
+                    "displayName": "Queue",
+                    "required": false,
+                    "description": "Name of service bus queue which will receive messages"
                 }
             }
         }
