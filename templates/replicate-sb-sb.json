@@ -1,0 +1,99 @@
+{
+    "id": "replicate-from-sb-to-sb",
+    "description": "Replicate content from this namespace to target Service Bus namespace.",
+    "title": "Replicate to Service Bus",
+    "iconType": "Event",
+    "skuType": "Standard",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "For_each": {
+                    "actions": {
+                        "Send_Message": {
+                            "inputs": {
+                                "parameters": {
+                                    "entityName": "@parameters('{taskName}-targetQueue')",
+                                    "message": {
+                                        "contentData": "@item()?['contentData']"
+                                    }
+                                },
+                                "serviceProviderConfiguration": {
+                                    "connectionName": "{taskName}-serviceBus-2",
+                                    "operationId": "sendMessage",
+                                    "serviceProviderId": "/serviceProviders/serviceBus"
+                                }
+                            },
+                            "runAfter": {},
+                            "type": "ServiceProvider"
+                        }
+                    },
+                    "foreach": "@triggerOutputs()?['body']",
+                    "runAfter": {},
+                    "type": "Foreach"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "triggers": {
+                "When_messages_are_available_in_Service_Bus_queue": {
+                    "inputs": {
+                        "parameters": {
+                            "isSessionsEnabled": false,
+                            "queueName": "@parameters('{taskName}-sourceQueue')"
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}-serviceBus-1",
+                            "operationId": "receiveQueueMessages",
+                            "serviceProviderId": "/serviceProviders/serviceBus"
+                        }
+                    },
+                    "type": "ServiceProvider"
+                }
+            }
+        },
+        "connections": {
+            "serviceProviderConnections": {
+                "{taskName}-serviceBus-1": {
+                    "parameterValues": {
+                    },
+                    "serviceProvider": {
+                        "id": "/serviceProviders/serviceBus"
+                    }
+                },
+                "{taskName}-serviceBus-2": {
+                    "parameterValues": {
+                    },
+                    "serviceProvider": {
+                        "id": "/serviceProviders/serviceBus"
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "sourceQueue": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Source queue name",
+                    "dynamicList": {
+                        "operationId": "GetServiceBusQueues",
+                        "connectionReference": "{taskName}-serviceBus-1"
+                    }
+                }
+            },
+            "targetQueue": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Target queue name",
+                    "dynamicList": {
+                        "operationId": "GetServiceBusQueues",
+                        "connectionReference": "{taskName}-serviceBus-2"
+                    }
+                }
+            }
+        }
+    },
+    "supportedResources": ["Microsoft.ServiceBus/Namespaces"]
+}
