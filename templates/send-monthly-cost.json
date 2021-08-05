@@ -72,7 +72,7 @@
                         },
                         "host": {
                             "connection": {
-                                "name": "@parameters('$connections')['arm_1']['connectionId']"
+                                "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
                         "method": "post",
@@ -126,7 +126,7 @@
             }
         },
         "connections": {
-            "arm_1": {
+            "arm": {
                 "connectionId": "",
                 "connectionName": "",
                 "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus2/managedApis/arm"

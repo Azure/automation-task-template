@@ -19,7 +19,7 @@
                                     }
                                 },
                                 "serviceProviderConfiguration": {
-                                    "connectionName": "{taskName}-serviceBus-2",
+                                    "connectionName": "{taskName}_target",
                                     "operationId": "sendMessage",
                                     "serviceProviderId": "/serviceProviders/serviceBus"
                                 }
@@ -43,7 +43,7 @@
                             "queueName": "@parameters('{taskName}-sourceQueue')"
                         },
                         "serviceProviderConfiguration": {
-                            "connectionName": "{taskName}-serviceBus-1",
+                            "connectionName": "{taskName}_source",
                             "operationId": "receiveQueueMessages",
                             "serviceProviderId": "/serviceProviders/serviceBus"
                         }
@@ -54,16 +54,12 @@
         },
         "connections": {
             "serviceProviderConnections": {
-                "{taskName}-serviceBus-1": {
-                    "parameterValues": {
-                    },
+                "{taskName}_source": {
                     "serviceProvider": {
                         "id": "/serviceProviders/serviceBus"
                     }
                 },
-                "{taskName}-serviceBus-2": {
-                    "parameterValues": {
-                    },
+                "{taskName}_target": {
                     "serviceProvider": {
                         "id": "/serviceProviders/serviceBus"
                     }
