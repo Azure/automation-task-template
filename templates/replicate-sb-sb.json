@@ -57,7 +57,8 @@
                 "{taskName}_source": {
                     "serviceProvider": {
                         "id": "/serviceProviders/serviceBus"
-                    }
+                    },
+                    "isLinkedToResource": true
                 },
                 "{taskName}_target": {
                     "serviceProvider": {
