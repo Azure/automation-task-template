@@ -13,7 +13,7 @@
                         "Send_Message": {
                             "inputs": {
                                 "parameters": {
-                                    "entityName": "@parameters('{taskName}-targetQueue')",
+                                    "entityName": "@parameters('{taskName}_targetQueue')",
                                     "message": {
                                         "contentData": "@item()?['contentData']"
                                     }
@@ -40,7 +40,7 @@
                     "inputs": {
                         "parameters": {
                             "isSessionsEnabled": false,
-                            "queueName": "@parameters('{taskName}-sourceQueue')"
+                            "queueName": "@parameters('{taskName}_sourceQueue')"
                         },
                         "serviceProviderConfiguration": {
                             "connectionName": "{taskName}_source",
@@ -68,26 +68,18 @@
             }
         },
         "parameters": {
-            "sourceQueue": {
+            "{taskName}_sourceQueue": {
                 "type": "String",
                 "metadata": {
                     "required": true,
-                    "displayName": "Source queue name",
-                    "dynamicList": {
-                        "operationId": "GetServiceBusQueues",
-                        "connectionReference": "{taskName}-serviceBus-1"
-                    }
+                    "displayName": "Source queue name"
                 }
             },
-            "targetQueue": {
+            "{taskName}_targetQueue": {
                 "type": "String",
                 "metadata": {
                     "required": true,
-                    "displayName": "Target queue name",
-                    "dynamicList": {
-                        "operationId": "GetServiceBusQueues",
-                        "connectionReference": "{taskName}-serviceBus-2"
-                    }
+                    "displayName": "Target queue name"
                 }
             }
         }
