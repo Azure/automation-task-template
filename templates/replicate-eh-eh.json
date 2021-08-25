@@ -1,0 +1,89 @@
+{
+    "id": "replicate-from-eh-to-eh",
+    "description": "Replicate content from this instance to target Event Hub instance.",
+    "title": "Replicate to Event Hubs",
+    "iconType": "Event",
+    "skuType": "Standard",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "For_each": {
+                    "actions": {
+                        "Send_Message": {
+                            "inputs": {
+                                "parameters": {
+                                    "eventHubName": "@parameters('{taskName}_targetInstance')",
+                                    "eventData": {
+                                        "contentData": "@item()?['contentData']"
+                                    }
+                                },
+                                "serviceProviderConfiguration": {
+                                    "connectionName": "{taskName}_target",
+                                    "operationId": "sendEvent",
+                                    "serviceProviderId": "/serviceProviders/eventHub"
+                                }
+                            },
+                            "runAfter": {},
+                            "type": "ServiceProvider"
+                        }
+                    },
+                    "foreach": "@triggerOutputs()?['body']",
+                    "runAfter": {},
+                    "type": "Foreach"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "triggers": {
+                "When_events_are_available_in_Event_hub": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_sourceInstance')"
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_source",
+                            "operationId": "receiveEvents",
+                            "serviceProviderId": "/serviceProviders/eventHub"
+                        }
+                    },
+                    "type": "ServiceProvider"
+                }
+            }
+        },
+        "connections": {
+            "serviceProviderConnections": {
+                "{taskName}_source": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    },
+                    "metadata": {
+                        "isLinkedToResource": true
+                    }
+                },
+                "{taskName}_target": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "{taskName}_sourceInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Source event hub instance"
+                }
+            },
+            "{taskName}_targetInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Target event hub instance"
+                }
+            }
+        }
+    },
+    "supportedResources": ["Microsoft.EventHub/Namespaces"]
+}

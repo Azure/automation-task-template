@@ -7,5 +7,6 @@
     "cosmos-send-query-result.json",
     "delete-old-blob.json",
     "copy-svcbus-storage.json",
-    "replicate-sb-sb.json"
+    "replicate-sb-sb.json",
+    "replicate-eh-eh.json"
 ]
