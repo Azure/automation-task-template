@@ -83,6 +83,11 @@
                     "displayName": "Target event hub instance"
                 }
             }
+        },
+        "settings": {
+            "AzureFunctionsJobHost__extensions__eventHubs__batchCheckpointFrequency": 1,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 5000,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 200
         }
     },
     "supportedResources": ["Microsoft.EventHub/Namespaces"]
