@@ -8,42 +8,34 @@
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
             "actions": {
-                "For_each": {
-                    "actions": {
-                        "Send_Message": {
-                            "inputs": {
-                                "parameters": {
-                                    "eventHubName": "@parameters('{taskName}_targetInstance')",
-                                    "eventData": {
-                                        "contentData": "@item()?['contentData']"
-                                    }
-                                },
-                                "serviceProviderConfiguration": {
-                                    "connectionName": "{taskName}_target",
-                                    "operationId": "sendEvent",
-                                    "serviceProviderId": "/serviceProviders/eventHub"
-                                }
-                            },
-                            "runAfter": {},
-                            "type": "ServiceProvider"
+                "Replicate_events": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_targetInstance')",
+                            "skipAlreadyReplicated": false
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_target",
+                            "operationId": "replicateEvents",
+                            "serviceProviderId": "/serviceProviders/eventHub"
                         }
                     },
-                    "foreach": "@triggerOutputs()?['body']",
                     "runAfter": {},
-                    "type": "Foreach"
+                    "type": "ServiceProvider"
                 }
             },
             "contentVersion": "1.0.0.0",
             "outputs": {},
             "triggers": {
-                "When_events_are_available_in_Event_hub": {
+                "When_events_are_available_for_replication": {
                     "inputs": {
                         "parameters": {
-                            "eventHubName": "@parameters('{taskName}_sourceInstance')"
+                            "eventHubName": "@parameters('{taskName}_sourceInstance')",
+                            "consumerGroup": "@parameters('{taskName}_consumerGroup')"
                         },
                         "serviceProviderConfiguration": {
                             "connectionName": "{taskName}_source",
-                            "operationId": "receiveEvents",
+                            "operationId": "receiveEventsForReplication",
                             "serviceProviderId": "/serviceProviders/eventHub"
                         }
                     },
@@ -74,6 +66,14 @@
                 "metadata": {
                     "required": true,
                     "displayName": "Source event hub instance"
+                }
+            },
+            "{taskName}_consumerGroup":{
+                "defaultValue": "$Default",
+                "type": "String",
+                "metadata": {
+                    "required": false,
+                    "displayName": "Target event hub instance"
                 }
             },
             "{taskName}_targetInstance": {
