@@ -8,5 +8,6 @@
     "delete-old-blob.json",
     "copy-svcbus-storage.json",
     "replicate-sb-sb.json",
-    "replicate-eh-eh.json"
+    "replicate-eh-eh.json",
+    "replicate-sb-eh.json"
 ]
