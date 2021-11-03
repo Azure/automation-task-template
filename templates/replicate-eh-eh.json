@@ -69,7 +69,7 @@
                 }
             },
             "{taskName}_consumerGroup":{
-                "defaultValue": "$Default",
+                "value": "$Default",
                 "type": "String",
                 "metadata": {
                     "required": false,
