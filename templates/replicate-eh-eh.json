@@ -1,0 +1,93 @@
+{
+    "id": "replicate-from-eh-to-eh",
+    "description": "Replicate content from an Event Hub to another Event Hub",
+    "title": "Replicate from Event Hub to Event Hub",
+    "iconType": "Event",
+    "skuType": "Standard",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "Replicate_events": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_targetInstance')",
+                            "skipAlreadyReplicated": false
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_target",
+                            "operationId": "replicateEvents",
+                            "serviceProviderId": "/serviceProviders/eventHub"
+                        }
+                    },
+                    "runAfter": {},
+                    "type": "ServiceProvider"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "triggers": {
+                "When_events_are_available_for_replication": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_sourceInstance')",
+                            "consumerGroup": "@parameters('{taskName}_consumerGroup')"
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_source",
+                            "operationId": "receiveEventsForReplication",
+                            "serviceProviderId": "/serviceProviders/eventHub"
+                        }
+                    },
+                    "type": "ServiceProvider"
+                }
+            }
+        },
+        "connections": {
+            "serviceProviderConnections": {
+                "{taskName}_source": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    },
+                    "metadata": {
+                        "isLinkedToResource": true
+                    }
+                },
+                "{taskName}_target": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "{taskName}_sourceInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Source event hub instance"
+                }
+            },
+            "{taskName}_consumerGroup":{
+                "value": "$Default",
+                "type": "String",
+                "metadata": {
+                    "required": false,
+                    "displayName": "Target event hub instance"
+                }
+            },
+            "{taskName}_targetInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Target event hub instance"
+                }
+            }
+        },
+        "settings": {
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 800,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 800
+        }
+    },
+    "supportedResources": ["Microsoft.EventHub/Namespaces"]
+}

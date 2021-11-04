@@ -1,0 +1,85 @@
+{
+    "id": "replicate-from-sb-to-eh",
+    "description": "Replicate messages from a queue to an Event Hub instance",
+    "title": "Replicate from queue to Event Hub",
+    "iconType": "Event",
+    "skuType": "Standard",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "Replicate_events": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_targetInstance')",
+                            "skipAlreadyReplicated": false
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_target",
+                            "operationId": "replicateEvents",
+                            "serviceProviderId": "/serviceProviders/eventHub"
+                        }
+                    },
+                    "runAfter": {},
+                    "type": "ServiceProvider"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "triggers": {
+                "When_messages_are_available_in_a_queue_for_replication": {
+                    "inputs": {
+                        "parameters": {
+                            "isSessionsEnabled": false,
+                            "queueName": "@parameters('{taskName}_sourceQueue')"
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_source",
+                            "operationId": "receiveQueueMessagesForReplication",
+                            "serviceProviderId": "/serviceProviders/serviceBus"
+                        }
+                    },
+                    "type": "ServiceProvider"
+                }
+            }
+        },
+        "connections": {
+            "serviceProviderConnections": {
+                "{taskName}_source": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/serviceBus"
+                    },
+                    "metadata": {
+                        "isLinkedToResource": true
+                    }
+                },
+                "{taskName}_target": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "{taskName}_sourceQueue": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Source queue name"
+                }
+            },
+            "{taskName}_targetInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Target event hub instance"
+                }
+            }
+        },
+        "settings": {
+            "AzureFunctionsJobHost__extensions__serviceBus__batchOptions__maxMessageCount": 800,
+            "AzureFunctionsJobHost__extensions__serviceBus__prefetchCount": 800   
+        }
+    },
+    "supportedResources": ["Microsoft.ServiceBus/Namespaces"]
+}
