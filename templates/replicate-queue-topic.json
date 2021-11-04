@@ -77,7 +77,7 @@
             }
         },
         "settings": {
-            "AzureFunctionsJobHost__extensions__serviceBus__batchOptions__maxMessageCount": 800
+            "AzureFunctionsJobHost__extensions__serviceBus__batchOptions__maxMessageCount": 800,
             "AzureFunctionsJobHost__extensions__serviceBus__prefetchCount": 800   
         }
     },
