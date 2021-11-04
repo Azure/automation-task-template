@@ -85,8 +85,8 @@
             }
         },
         "settings": {
-            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 5000,
-            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 200
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 800,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 800
         }
     },
     "supportedResources": ["Microsoft.EventHub/Namespaces"]
