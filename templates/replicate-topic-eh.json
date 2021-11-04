@@ -84,10 +84,8 @@
             }
         },
         "settings": {
-            "AzureFunctionsJobHost__extensions__serviceBus__prefetchCount": 200,
-            "AzureFunctionsJobHost__extensions__serviceBus__messageHandlerOptions__autoComplete": true,
-            "AzureFunctionsJobHost__extensions__serviceBus__messageHandlerOptions__maxConcurrentCalls": 1,
-            "AzureFunctionsJobHost__extensions__serviceBus__messageHandlerOptions__maxAutoRenewDuration": "00:05:00"
+            "AzureFunctionsJobHost__extensions__serviceBus__batchOptions__maxMessageCount": 800,
+            "AzureFunctionsJobHost__extensions__serviceBus__prefetchCount": 800   
         }
     },
     "supportedResources": ["Microsoft.ServiceBus/Namespaces"]
