@@ -13,5 +13,6 @@
     "replicate-queue-topic.json",
     "replicate-topic-queue.json",
     "replicate-topic-topic.json",
-    "replicate-eh-queue.json"
+    "replicate-eh-queue.json",
+    "replicate-eh-topic.json"
 ]
