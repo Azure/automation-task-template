@@ -8,35 +8,26 @@
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
             "actions": {
-                "For_each": {
-                    "actions": {
-                        "Send_Message": {
-                            "inputs": {
-                                "parameters": {
-                                    "entityName": "@parameters('{taskName}_targetQueue')",
-                                    "message": {
-                                        "contentData": "@item()?['contentData']"
-                                    }
-                                },
-                                "serviceProviderConfiguration": {
-                                    "connectionName": "{taskName}_target",
-                                    "operationId": "sendMessage",
-                                    "serviceProviderId": "/serviceProviders/serviceBus"
-                                }
-                            },
-                            "runAfter": {},
-                            "type": "ServiceProvider"
+                "Replicate_messages": {
+                    "inputs": {
+                        "parameters": {
+                            "entityName": "@parameters('{taskName}_targetQueue')",
+                            "skipAlreadyReplicated": false
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_target",
+                            "operationId": "replicateMessages",
+                            "serviceProviderId": "/serviceProviders/serviceBus"
                         }
                     },
-                    "foreach": "@triggerOutputs()?['body']",
                     "runAfter": {},
-                    "type": "Foreach"
+                    "type": "ServiceProvider"
                 }
             },
             "contentVersion": "1.0.0.0",
             "outputs": {},
             "triggers": {
-                "When_messages_are_available_in_Service_Bus_queue": {
+                "When_messages_are_available_in_a_queue_for_replication": {
                     "inputs": {
                         "parameters": {
                             "isSessionsEnabled": false,
@@ -44,7 +35,7 @@
                         },
                         "serviceProviderConfiguration": {
                             "connectionName": "{taskName}_source",
-                            "operationId": "receiveQueueMessages",
+                            "operationId": "receiveQueueMessagesForReplication",
                             "serviceProviderId": "/serviceProviders/serviceBus"
                         }
                     },
