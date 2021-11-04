@@ -6,5 +6,14 @@
     "deallocate-vm-new.json",
     "cosmos-send-query-result.json",
     "delete-old-blob.json",
-    "copy-svcbus-storage.json"
+    "copy-svcbus-storage.json",
+    "replicate-sb-sb.json",
+    "replicate-eh-eh.json",
+    "replicate-sb-eh.json",
+    "replicate-queue-topic.json",
+    "replicate-topic-queue.json",
+    "replicate-topic-topic.json",
+    "replicate-eh-queue.json",
+    "replicate-eh-topic.json",
+    "replicate-topic-eh.json"
 ]
