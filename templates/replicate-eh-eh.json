@@ -1,7 +1,7 @@
 {
     "id": "replicate-from-eh-to-eh",
-    "description": "Replicate content from this instance to target Event Hub instance.",
-    "title": "Replicate to Event Hubs",
+    "description": "Replicate content from an Event Hub to another Event Hub",
+    "title": "Replicate from Event Hub to Event Hub",
     "iconType": "Event",
     "skuType": "Standard",
     "data": {
@@ -85,7 +85,6 @@
             }
         },
         "settings": {
-            "AzureFunctionsJobHost__extensions__eventHubs__batchCheckpointFrequency": 1,
             "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 5000,
             "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 200
         }
