@@ -1,0 +1,94 @@
+{
+    "id": "replicate-from-eh-to-eh",
+    "description": "Replicate content from this instance to target Event Hub instance.",
+    "title": "Replicate to Event Hubs",
+    "iconType": "Event",
+    "skuType": "Standard",
+    "data": {
+        "definition": {
+            "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+            "actions": {
+                "Replicate_messages": {
+                    "inputs": {
+                        "parameters": {
+                            "entityName": "@parameters('{taskName}_targetQueue')",
+                            "skipAlreadyReplicated": false
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_target",
+                            "operationId": "replicateMessages",
+                            "serviceProviderId": "/serviceProviders/serviceBus"
+                        }
+                    },
+                    "runAfter": {},
+                    "type": "ServiceProvider"
+                }
+            },
+            "contentVersion": "1.0.0.0",
+            "outputs": {},
+            "triggers": {
+                "When_events_are_available_for_replication": {
+                    "inputs": {
+                        "parameters": {
+                            "eventHubName": "@parameters('{taskName}_sourceInstance')",
+                            "consumerGroup": "@parameters('{taskName}_consumerGroup')"
+                        },
+                        "serviceProviderConfiguration": {
+                            "connectionName": "{taskName}_source",
+                            "operationId": "receiveEventsForReplication",
+                            "serviceProviderId": "/serviceProviders/eventHub"
+                        }
+                    },
+                    "type": "ServiceProvider"
+                }
+            }
+        },
+        "connections": {
+            "serviceProviderConnections": {
+                "{taskName}_source": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/eventHub"
+                    },
+                    "metadata": {
+                        "isLinkedToResource": true
+                    }
+                },
+                "{taskName}_target": {
+                    "serviceProvider": {
+                        "id": "/serviceProviders/serviceBus"
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "{taskName}_sourceInstance": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Source event hub instance"
+                }
+            },
+            "{taskName}_consumerGroup":{
+                "value": "$Default",
+                "type": "String",
+                "metadata": {
+                    "required": false,
+                    "displayName": "Consumer group"
+                }
+            },
+            "{taskName}_targetQueue": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Target queue name"
+                }
+            }
+        },
+        "settings": {
+            "AzureFunctionsJobHost__extensions__eventHubs__batchCheckpointFrequency": 1,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__maxBatchSize": 5000,
+            "AzureFunctionsJobHost__extensions__eventHubs__eventProcessorOptions__prefetchCount": 200
+        }
+    },
+    "supportedResources": ["Microsoft.EventHub/Namespaces"]
+}
