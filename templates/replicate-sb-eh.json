@@ -1,7 +1,7 @@
 {
     "id": "replicate-from-sb-to-eh",
-    "description": "Replicate messages from a queue to an Event Hub instance",
-    "title": "Replicate from queue to Event Hub",
+    "description": "Replicate messages arriving in a queue to Event Hub",
+    "title": "Replicate from Service Bus queue to Event Hub",
     "iconType": "Event",
     "skuType": "Standard",
     "data": {
