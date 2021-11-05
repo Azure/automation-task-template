@@ -1,6 +1,6 @@
 {
     "id": "replicate-from-sb-to-topic",
-    "description": "Replicate content from a queue to a topic.",
+    "description": "When messages arrive in Service Bus queue, replicate to a topic.",
     "title": "Replicate from Service Bus queue to topic",
     "iconType": "Event",
     "skuType": "Standard",

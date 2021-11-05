@@ -1,7 +1,7 @@
 {
     "id": "replicate-from-topic-to-queue",
-    "description": "Replicate content from Service Bus topic to a queue",
-    "title": "Replicate to Service Bus",
+    "description": "Performs topic to queue replication for Service Bus",
+    "title": "Replicate from Service Bus topic to Service Bus queue",
     "iconType": "Event",
     "skuType": "Standard",
     "data": {
