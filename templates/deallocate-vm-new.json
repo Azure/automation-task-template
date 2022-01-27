@@ -3,6 +3,7 @@
     "description": "Deallocate VM at a scheduled time of the day",
     "title": "Deallocate Virtual Machine",
     "iconType": "ScheduledTask",
+    "skuType": "Consumption",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -108,39 +109,67 @@
                 "$connections": {
                     "defaultValue": {},
                     "type": "Object"
-                },
-                "ResourceGroup": {
-                    "type": "String",
-                    "metadata": {
-                        "sourceParameter": "resourceGroup",
-                        "isLinkedResource": true
-                    }
-                },
-                "ResourceVM": {
-                    "type": "String",
-                    "metadata": {
-                        "sourceParameter": "name",
-                        "isLinkedResource": true
-                    }
-                },
-                "SubscriptionId": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "subscriptionId"
-                    }
-                },
-                "DeallocateTime": {
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Deallocate Time",
-                        "required": true,
-                        "format": "timeFormat",
-                        "description": "Select time to Deallocate Virtual Machine"
-                    }
-                },
-                "TimeZone": {
-                    "defaultValue": "UTC",
+                }
+            },
+            "triggers": {
+                "Recurrence": {
+                    "recurrence": {
+                        "frequency":  "@parameters('Frequency')",
+                        "interval":  "@parameters('Interval')",
+                        "startTime": "@formatDateTime(parameters('DeallocateTime'), 'yyyy-MM-ddTHH:mm:ss')",
+                        "timeZone": "@parameters('TimeZone')"
+                    },
+                    "type": "Recurrence"
+                }
+            }
+        },
+        "connections": {
+            "azurevm": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/eastus/managedApis/azurevm"
+            },
+            "office365": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+            }
+        },
+        "parameters": {
+            "ResourceGroup": {
+                "type": "String",
+                "metadata": {
+                    "sourceParameter": "resourceGroup",
+                    "isLinkedResource": true
+                }
+            },
+            "ResourceVM": {
+                "type": "String",
+                "metadata": {
+                    "sourceParameter": "name",
+                    "isLinkedResource": true
+                }
+            },
+            "SubscriptionId": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "subscriptionId"
+                }
+            },
+            "DeallocateTime": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Deallocate Time",
+                    "required": true,
+                    "format": "timeFormat",
+                    "description": "Select time to Deallocate Virtual Machine"
+                }
+            },
+            "TimeZone": {
+                "defaultValue": "UTC",
+                "type": "String",
+                "metadata": {
                     "allowedValues": [
                         "Dateline Standard Time",
                         "UTC-11",
@@ -274,26 +303,26 @@
                         "Samoa Standard Time",
                         "Line Islands Standard Time"
                     ],
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Timezone",
-                        "placeholder": "Deallocate VM at this specific time zone",
-                        "description": "Select time zone for task schedule",
-                        "required": true
-                    }
-                },
-                "Interval": {
-                    "defaultValue": 1,
-                    "type": "Int",
-                    "metadata":  {
-                        "displayName": "Interval",
-                        "description": "Time interval for recurrence",
-                        "required": true,
-                        "format": "number"
-                    }
-                },
-                "Frequency": {
-                    "defaultValue": "Day",
+                    "displayName": "Timezone",
+                    "placeholder": "Deallocate VM at this specific time zone",
+                    "description": "Select time zone for task schedule",
+                    "required": true
+                }
+            },
+            "Interval": {
+                "defaultValue": 1,
+                "type": "Int",
+                "metadata":  {
+                    "displayName": "Interval",
+                    "description": "Time interval for recurrence",
+                    "required": true,
+                    "format": "number"
+                }
+            },
+            "Frequency": {
+                "defaultValue": "Day",
+                "type": "String",
+                "metadata": {
                     "allowedValues": [
                         "Month",
                         "Week",
@@ -302,58 +331,28 @@
                         "Minute",
                         "Seconds"
                     ],
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Frequency",
-                        "placeholder": "How often does schedule run",
-                        "description": "How often should schedule run. i.e. Weekly",
-                        "required": true
-                    }
-                },
-                "Notify": {
-                    "type": "bool",
-                    "metadata":  {
-                        "displayName": "Notify Me",
-                        "description": "Notify me about task status",
-                        "format": "notifier",
-                        "required": false
-                    }
-                },
-                "EmailID": {
-                    "defaultValue": "user@microsoft.com",
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Enter email",
-                        "description": "Notification to be sent to email",
-                        "required": false
-                    }
+                    "displayName": "Frequency",
+                    "placeholder": "How often does schedule run",
+                    "description": "How often should schedule run. i.e. Weekly",
+                    "required": true
                 }
             },
-            "triggers": {
-                "Recurrence": {
-                    "recurrence": {
-                        "frequency":  "@parameters('Frequency')",
-                        "interval":  "@parameters('Interval')",
-                        "startTime": "@formatDateTime(parameters('DeallocateTime'), 'yyyy-MM-ddTHH:mm:ss')",
-                        "timeZone": "@parameters('TimeZone')"
-                    },
-                    "type": "Recurrence"
+            "Notify": {
+                "type": "Bool",
+                "metadata":  {
+                    "displayName": "Notify Me",
+                    "description": "Notify me about task status",
+                    "format": "notifier",
+                    "required": false
                 }
-            }
-        },
-        "parameters": {
-            "$connections": {
-                "value": {
-                    "azurevm": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/eastus/managedApis/azurevm"
-                    },
-                    "office365": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
-                    }
+            },
+            "EmailID": {
+                "defaultValue": "user@microsoft.com",
+                "type": "String",
+                "metadata": {
+                    "displayName": "Enter email",
+                    "description": "Notification to be sent to email",
+                    "required": false
                 }
             }
         }

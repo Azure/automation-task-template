@@ -3,6 +3,7 @@
     "description": "Deletes a blob of a certain age",
     "title": "Delete old blobs",
     "iconType": "ScheduledTask",
+    "skuType": "Consumption",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -87,39 +88,6 @@
                 "$connections": {
                     "defaultValue": {},
                     "type": "Object"
-                },
-                "BlobFolder": {
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Blob container name",
-                        "isLinkedResource": false,
-                        "placeholder": "",
-                        "required": true
-                    }
-                },
-                "ExpirationAge": {
-                    "type": "Int",
-                    "metadata": {
-                        "displayName": "Expiration age",
-                        "isLinkedResource": false,
-                        "required": true,
-                        "description": "Blobs older than this age will be deleted"
-                    }
-                },
-                "Time": {
-                    "type": "String",
-                    "defaultValue": "Days",
-                    "allowedValues": [
-                        "Days",
-                        "Weeks",
-                        "Months"
-                    ],
-                    "metadata": {
-                        "displayName": "Time Unit",
-                        "placeholder": "Days",
-                        "isLinkedResource": false,
-                        "required": true
-                    }
                 }
             },
             "triggers": {
@@ -132,14 +100,45 @@
                 }
             }
         },
+        "connections": {
+            "azureblob": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus/managedApis/azureblob"
+            }
+        },
         "parameters": {
-            "$connections": {
-                "value": {
-                    "azureblob": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/8d7ef576-a88b-482b-a5c6-fcd6064c39ca/providers/Microsoft.Web/locations/westus/managedApis/azureblob"
-                    }
+            "BlobFolder": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Blob container name",
+                    "isLinkedResource": false,
+                    "placeholder": "",
+                    "required": true
+                }
+            },
+            "ExpirationAge": {
+                "type": "Int",
+                "metadata": {
+                    "displayName": "Expiration age",
+                    "isLinkedResource": false,
+                    "required": true,
+                    "description": "Blobs older than this age will be deleted"
+                }
+            },
+            "Time": {
+                "type": "String",
+                "defaultValue": "Days",
+                "metadata": {
+                    "allowedValues": [
+                        "Days",
+                        "Weeks",
+                        "Months"
+                    ],
+                    "displayName": "Time Unit",
+                    "placeholder": "Days",
+                    "isLinkedResource": false,
+                    "required": true
                 }
             }
         }
