@@ -3,6 +3,7 @@
     "description": "Sends the cost of the resource every month.",
     "title": "Send monthly cost for resource",
     "iconType": "ScheduledTask",
+    "skuType": "Consumption",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -71,7 +72,7 @@
                         },
                         "host": {
                             "connection": {
-                                "name": "@parameters('$connections')['arm_1']['connectionId']"
+                                "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
                         "method": "post",
@@ -112,28 +113,6 @@
                 "$connections": {
                     "defaultValue": {},
                     "type": "Object"
-                },
-                "EmailId": {
-                    "type": "String",
-                    "metadata": {
-                        "required": true,
-                        "displayName": "Email sent to",
-                        "placeholder": "Enter the email address to send email."
-                    }
-                },
-                "ResourceId": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "id"
-                    }
-                },
-                "SubscriptionId": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "subscriptionId"
-                    }
                 }
             },
             "triggers": {
@@ -146,19 +125,39 @@
                 }
             }
         },
+        "connections": {
+            "arm": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus2/managedApis/arm"
+            },
+            "office365": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus2/managedApis/office365"
+            }
+        },
         "parameters": {
-            "$connections": {
-                "value": {
-                    "arm_1": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus2/managedApis/arm"
-                    },
-                    "office365": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/80d4fe69-c95b-4dd2-a938-9250f1c8ab03/providers/Microsoft.Web/locations/westus2/managedApis/office365"
-                    }
+            "EmailId": {
+                "type": "String",
+                "metadata": {
+                    "required": true,
+                    "displayName": "Email sent to",
+                    "placeholder": "Enter the email address to send email."
+                }
+            },
+            "ResourceId": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "id"
+                }
+            },
+            "SubscriptionId": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "subscriptionId"
                 }
             }
         }

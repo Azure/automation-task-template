@@ -3,6 +3,7 @@
     "description": "Sends email notification when resource is deleted",
     "title": "When resource is deleted",
     "iconType": "Event",
+    "skuType": "Consumption",
     "data": {
         "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -32,38 +33,6 @@
                 "$connections": {
                     "defaultValue": {},
                     "type": "Object"
-                },
-                "Email ID": {
-                    "type": "String",
-                    "metadata": {
-                        "displayName": "Email to",
-                        "isLinkedResource": false,
-                        "required": true,
-                        "description": "Enter the email that you want notifications to be sent to"
-                    }
-
-                },
-                "ResourceID": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "id"
-
-                    }
-                },
-                "Subscriptionid": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "subscriptionId"
-                    }
-                },
-                "resourceType": {
-                    "type": "String",
-                    "metadata": {
-                        "isLinkedResource": true,
-                        "sourceParameter": "type"
-                    }
                 }
             },
             "triggers": {
@@ -100,19 +69,49 @@
                 }
             }
         },
+        "connections": {
+            "azureeventgrid": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus/managedApis/azureeventgrid"
+            },
+            "office365": {
+                "connectionId": "",
+                "connectionName": "",
+                "id": "/subscriptions/00/providers/Microsoft.Web/locations/westus/managedApis/office365"
+            }
+        },
         "parameters": {
-            "$connections": {
-                "value": {
-                    "azureeventgrid": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/8d7ef576-a88b-482b-a5c6-fcd6064c39ca/providers/Microsoft.Web/locations/westus/managedApis/azureeventgrid"
-                    },
-                    "office365": {
-                        "connectionId": "",
-                        "connectionName": "",
-                        "id": "/subscriptions/8d7ef576-a88b-482b-a5c6-fcd6064c39ca/providers/Microsoft.Web/locations/westus/managedApis/office365"
-                    }
+            "Email ID": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Email to",
+                    "isLinkedResource": false,
+                    "required": true,
+                    "description": "Enter the email that you want notifications to be sent to"
+                }
+
+            },
+            "ResourceID": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "id"
+
+                }
+            },
+            "Subscriptionid": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "subscriptionId"
+                }
+            },
+            "resourceType": {
+                "type": "String",
+                "metadata": {
+                    "isLinkedResource": true,
+                    "sourceParameter": "type"
                 }
             }
         }
