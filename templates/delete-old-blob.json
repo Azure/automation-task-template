@@ -129,6 +129,11 @@
             "Time": {
                 "type": "String",
                 "defaultValue": "Days",
+                "allowedValues": [
+                    "Days",
+                    "Weeks",
+                    "Months"
+                ],
                 "metadata": {
                     "allowedValues": [
                         "Days",
