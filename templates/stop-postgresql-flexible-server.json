@@ -94,9 +94,9 @@
                             }
                         },
                         "method": "post",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforPostgreSQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/powerOff",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforPostgreSQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/stop",
                         "queries": {
-                            "api-version": "2019-12-01"
+                            "api-version": "2022-12-01"
                         }
                     },
                     "runAfter": {},
