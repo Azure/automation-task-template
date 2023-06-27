@@ -15,5 +15,6 @@
     "replicate-topic-topic.json",
     "replicate-eh-queue.json",
     "replicate-eh-topic.json",
-    "replicate-topic-eh.json"
+    "replicate-topic-eh.json",
+    "stop-postgresql-flexible-server.json"
 ]
