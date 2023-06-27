@@ -90,7 +90,7 @@
                     "inputs": {
                         "host": {
                             "connection": {
-                                "name": "@parameters('$connections')['postgresql']['connectionId']"
+                                "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
                         "method": "post",
@@ -124,10 +124,10 @@
             }
         },
         "connections": {
-            "postgresql": {
+            "arm": {
                 "connectionId": "",
                 "connectionName": "",
-                "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/eastus/managedApis/postgresql"
+                "id": "/subscriptions/sub-id/providers/Microsoft.Web/locations/eastus/managedApis/arm"
             },
             "office365": {
                 "connectionId": "",
