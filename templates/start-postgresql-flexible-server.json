@@ -94,7 +94,7 @@
                             }
                         },
                         "method": "post",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforPostgreSQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/start",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforPostgreSQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/@{encodeURIComponent('start')}",
                         "queries": {
                             "x-ms-api-version": "2022-12-01"
                         }
