@@ -437,7 +437,7 @@
                         "Line Islands Standard Time"
                     ],
                     "displayName": "Timezone",
-                    "placeholder": "Start VM at this specific time zone",
+                    "placeholder": "Stop PostgreSQL Flexible Server at this specific time zone",
                     "description": "Select time zone for task schedule",
                     "required": true
                 }
