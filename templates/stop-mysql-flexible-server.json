@@ -94,7 +94,7 @@
                             }
                         },
                         "method": "post",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforMySQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/stop",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforMySQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/@{encodeURIComponent('stop')}",
                         "queries": {
                             "api-version": "2022-12-01"
                         }
