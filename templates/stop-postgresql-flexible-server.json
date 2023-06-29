@@ -93,10 +93,10 @@
                                 "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
-                        "method": "get",
+                        "method": "post",
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforPostgreSQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/stop",
                         "queries": {
-                            "api-version": "2022-12-01"
+                            "x-ms-api-version": "2022-12-01"
                         }
                     },
                     "runAfter": {},
