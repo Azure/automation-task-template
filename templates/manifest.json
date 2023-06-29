@@ -17,5 +17,5 @@
     "replicate-eh-topic.json",
     "replicate-topic-eh.json",
     "stop-postgresql-flexible-server.json",
-    "stop-postgresql-flexible-server.json"
+    "stop-mysql-flexible-server.json"
 ]
