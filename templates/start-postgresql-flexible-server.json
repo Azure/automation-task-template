@@ -40,7 +40,7 @@
                         ]
                     },
                     "runAfter": {
-                        "Stop_Flexible_Server": [
+                        "Start_Flexible_Server": [
                             "Failed",
                             "Skipped",
                             "TimedOut"
