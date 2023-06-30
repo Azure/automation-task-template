@@ -18,5 +18,6 @@
     "replicate-topic-eh.json",
     "start-postgresql-flexible-server.json",
     "stop-postgresql-flexible-server.json",
-    "stop-mysql-flexible-server.json"
+    "stop-mysql-flexible-server.json",
+    "start-mysql-flexible-server.json",
 ]
