@@ -1,5 +1,5 @@
 {
-    "id": "start_flexible_server",
+    "id": "start_postgresql_flexible_server",
     "description": "Start PostgreSQL Flexible Server at a scheduled time of the day",
     "title": "Start PostgreSQL Flexible Server",
     "iconType": "ScheduledTask",
@@ -163,7 +163,7 @@
                     "displayName": "Stop Time",
                     "required": true,
                     "format": "timeFormat",
-                    "description": "Select time to Power Off Virtual Machine"
+                    "description": "Select time to start PostgreSQL Flexible Server"
                 }
             },
             "TimeZone": {
