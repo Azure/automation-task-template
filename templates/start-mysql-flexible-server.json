@@ -96,7 +96,7 @@
                         "method": "post",
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}/@{encodeURIComponent('start')}",
                         "queries": {
-                            "x-ms-api-version": "2022-12-01"
+                            "x-ms-api-version": "2021-05-01"
                         }
                     },
                     "runAfter": {},
