@@ -87,16 +87,16 @@
                     "type": "If"
                 },
                 "Stop_Flexible_Server": {
-                    "inputs": {
+                   "inputs": {
                         "host": {
                             "connection": {
                                 "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
                         "method": "post",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/Microsoft.DBforMySQL/flexibleServers/@{encodeURIComponent(parameters('ResourceVM'))}/@{encodeURIComponent('stop')}",
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}/@{encodeURIComponent('stop')}",
                         "queries": {
-                            "api-version": "2022-12-01"
+                            "x-ms-api-version": "2022-12-01"
                         }
                     },
                     "runAfter": {},
