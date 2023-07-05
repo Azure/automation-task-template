@@ -1,5 +1,5 @@
 {
-    "id": "scale_flexible_server",
+    "id": "scale_mysql_flexible_server",
     "description": "Scale MySQL Flexible Server at a scheduled time of the day",
     "title": "Scale MySQL Flexible Server",
     "iconType": "ScheduledTask",
