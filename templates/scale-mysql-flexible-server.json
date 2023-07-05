@@ -471,13 +471,13 @@
                 "defaultValue": "",
                 "type": "String",
                 "allowedValues": [
-                    "GeneralPurose",
+                    "GeneralPurpose",
                     "Burstable",
                     "MemoryOptimized"
                 ],
                 "metadata": {
                     "allowedValues": [
-                        "GeneralPurose",
+                        "GeneralPurpose",
                         "Burstable",
                         "MemoryOptimized"
                     ],
