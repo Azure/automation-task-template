@@ -103,7 +103,7 @@
                         },
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforPostgreSQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}",
                         "queries": {
-                            "x-ms-api-version": "2021-05-01"
+                            "x-ms-api-version": "2022-12-01"
                         }
                     },
                     "runAfter": {},
