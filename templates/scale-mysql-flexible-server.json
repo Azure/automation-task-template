@@ -16,7 +16,7 @@
                                     "Body": "<p><strong>FAILED<br>\n<br>\n</strong>Status: Failed</p>",
                                     "Subject": "Your automation task failed to Scale MySQL Flexible Server @{parameters('ResourceVM')}",
                                     "To": "@parameters('EmailID')"
-                                 },
+                                },
                                 "host": {
                                     "connection": {
                                         "name": "@parameters('$connections')['office365']['connectionId']"
@@ -87,7 +87,7 @@
                     "type": "If"
                 },
                 "Scale_Flexible_Server": {
-                   "inputs": {
+                    "inputs": {
                         "host": {
                             "connection": {
                                 "name": "@parameters('$connections')['arm']['connectionId']"
@@ -95,12 +95,12 @@
                         },
                         "method": "put",
                         "body": {
-                           "sku": {
-                             "name": "@parameters('SkuName')",,
-                             "tier": "@parameters('SkuTier')",
-                           },
-                           "location": "@parameters('Location')",
-                         },
+                            "sku": {
+                                "name": "@parameters('SkuName')",
+                                "tier": "@parameters('SkuTier')"
+                            },
+                            "location": "@parameters('Location')"
+                        },
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}",
                         "queries": {
                             "x-ms-api-version": "2021-05-01"
@@ -121,8 +121,8 @@
             "triggers": {
                 "Recurrence": {
                     "recurrence": {
-                        "frequency":  "@parameters('Frequency')",
-                        "interval":  "@parameters('Interval')",
+                        "frequency": "@parameters('Frequency')",
+                        "interval": "@parameters('Interval')",
                         "startTime": "@formatDateTime(parameters('ScaleTime'), 'yyyy-MM-ddTHH:mm:ss')",
                         "timeZone": "@parameters('TimeZone')"
                     },
@@ -452,7 +452,7 @@
             "Location": {
                 "defaultValue": "",
                 "type": "String",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Location",
                     "description": "Flexible server location",
                     "required": true
@@ -461,7 +461,7 @@
             "SkuName": {
                 "defaultValue": "",
                 "type": "String",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Sku Name",
                     "description": "Flexible server Sku name ex: Standard_D2ds_v2 for 2vCores",
                     "required": true
@@ -475,7 +475,12 @@
                     "Burstable",
                     "MemoryOptimized"
                 ],
-                "metadata":  {
+                "metadata": {
+                    "allowedValues": [
+                        "GeneralPurose",
+                        "Burstable",
+                        "MemoryOptimized"
+                    ],
                     "displayName": "Sku Tier",
                     "description": "Flexible server Sku tier",
                     "required": true
@@ -484,7 +489,7 @@
             "Interval": {
                 "defaultValue": 1,
                 "type": "Int",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Interval",
                     "description": "Time interval for recurrence",
                     "required": true,
@@ -519,7 +524,7 @@
             },
             "Notify": {
                 "type": "Bool",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Notify Me",
                     "description": "Notify me about task status",
                     "format": "notifier",
@@ -537,5 +542,7 @@
             }
         }
     },
-    "supportedResources": ["Microsoft.DBforMySQL/flexibleServers"]
+    "supportedResources": [
+        "Microsoft.DBforMySQL/flexibleServers"
+    ]
 }
