@@ -93,7 +93,14 @@
                                 "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
-                        "method": "post",
+                        "method": "put",
+                        "body": {
+                           "sku": {
+                             "name": "@parameters('SkuName')",,
+                             "tier": "@parameters('SkuTier')",
+                           },
+                           "location": "@parameters('Location')",
+                         },
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}",
                         "queries": {
                             "x-ms-api-version": "2021-05-01"
@@ -439,6 +446,38 @@
                     "displayName": "Timezone",
                     "placeholder": "Scale MySQL Flexible server at this specific time zone",
                     "description": "Select time zone for task schedule",
+                    "required": true
+                }
+            },
+            "Location": {
+                "defaultValue": "",
+                "type": "String",
+                "metadata":  {
+                    "displayName": "Location",
+                    "description": "Flexible server location",
+                    "required": true
+                }
+            },
+            "SkuName": {
+                "defaultValue": "",
+                "type": "String",
+                "metadata":  {
+                    "displayName": "Sku Name",
+                    "description": "Flexible server Sku name ex: Standard_D2ds_v2 for 2vCores",
+                    "required": true
+                }
+            },
+            "SkuTier": {
+                "defaultValue": "",
+                "type": "String",
+                "allowedValues": [
+                    "GeneralPurose",
+                    "Burstable",
+                    "MemoryOptimized"
+                ],
+                "metadata":  {
+                    "displayName": "Sku Tier",
+                    "description": "Flexible server Sku tier",
                     "required": true
                 }
             },
