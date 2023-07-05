@@ -97,10 +97,9 @@
                         "body": {
                             "sku": {
                                 "name": "@parameters('SkuName')",
-                                ,
-                                "tier": "@parameters('SkuTier')",
+                                "tier": "@parameters('SkuTier')"
                             },
-                            "location": "@parameters('Location')",
+                            "location": "@parameters('Location')"
                         },
                         "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforPostgreSQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}",
                         "queries": {
