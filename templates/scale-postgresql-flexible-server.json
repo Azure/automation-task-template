@@ -14,7 +14,7 @@
                             "inputs": {
                                 "body": {
                                     "Body": "<p><strong>FAILED<br>\n<br>\n</strong>Status: Failed</p>",
-                                    "Subject": "Your automation task failed to Scale PostgreSQL Flexible Server @{parameters('ResourceVM')}",
+                                    "Subject": "Your automation task failed to Scale PostgreSQL Flexible Server @{parameters('ResourceVM')} to @{parameters('SkuName')}",
                                     "To": "@parameters('EmailID')"
                                 },
                                 "host": {
@@ -53,8 +53,8 @@
                         "Send_an_email_on_success": {
                             "inputs": {
                                 "body": {
-                                    "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: Succeeded</p>",
-                                    "Subject": "Your automation task sucessfully Scaled PostgreSQL Flexible Server @{parameters('ResourceVM')}",
+                                    "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: Succeeded</p>\n<br>\n<p>New Sku: @{parameters('SkuName')}</p>",
+                                    "Subject": "Your automation task sucessfully Scaled PostgreSQL Flexible Server @{parameters('ResourceVM')} @{parameters('SkuName')}",
                                     "To": "@parameters('EmailID')"
                                 },
                                 "host": {
