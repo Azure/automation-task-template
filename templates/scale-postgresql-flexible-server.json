@@ -54,7 +54,7 @@
                             "inputs": {
                                 "body": {
                                     "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: Succeeded</p>\n<br>\n<p>New Sku: @{parameters('SkuName')}</p>",
-                                    "Subject": "Your automation task sucessfully Scaled PostgreSQL Flexible Server @{parameters('ResourceVM')} @{parameters('SkuName')}",
+                                    "Subject": "Your automation task sucessfully Scaled PostgreSQL Flexible Server @{parameters('ResourceVM')} to @{parameters('SkuName')}",
                                     "To": "@parameters('EmailID')"
                                 },
                                 "host": {
