@@ -1,5 +1,5 @@
 {
-    "id": "stop_flexible_server",
+    "id": "stop_postgresql_flexible_server",
     "description": "Stop PostgreSQL Flexible Server at a scheduled time of the day",
     "title": "Stop PostgreSQL Flexible Server",
     "iconType": "ScheduledTask",

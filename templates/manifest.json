@@ -19,5 +19,7 @@
     "start-postgresql-flexible-server.json",
     "stop-postgresql-flexible-server.json",
     "stop-mysql-flexible-server.json",
-    "start-mysql-flexible-server.json"
+    "start-mysql-flexible-server.json",
+    "scale-mysql-flexible-server.json",
+    "scale-postgresql-flexible-server.json"
 ]

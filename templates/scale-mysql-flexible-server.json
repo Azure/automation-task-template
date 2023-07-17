@@ -1,7 +1,7 @@
 {
-    "id": "stop_mysql_flexible_server",
-    "description": "Stop MySQL Flexible Server at a scheduled time of the day",
-    "title": "Stop MySQL Flexible Server",
+    "id": "scale_mysql_flexible_server",
+    "description": "Scale MySQL Flexible Server at a scheduled time of the day",
+    "title": "Scale MySQL Flexible Server",
     "iconType": "ScheduledTask",
     "skuType": "Consumption",
     "data": {
@@ -14,9 +14,9 @@
                             "inputs": {
                                 "body": {
                                     "Body": "<p><strong>FAILED<br>\n<br>\n</strong>Status: Failed</p>",
-                                    "Subject": "Your automation task failed to stop MySQL Flexible Server @{parameters('ResourceVM')}",
+                                    "Subject": "Your automation task failed to Scale MySQL Flexible Server @{parameters('ResourceVM')} to @{parameters('SkuName')}",
                                     "To": "@parameters('EmailID')"
-                                 },
+                                },
                                 "host": {
                                     "connection": {
                                         "name": "@parameters('$connections')['office365']['connectionId']"
@@ -40,7 +40,7 @@
                         ]
                     },
                     "runAfter": {
-                        "Stop_Flexible_Server": [
+                        "Scale_Flexible_Server": [
                             "Failed",
                             "Skipped",
                             "TimedOut"
@@ -53,8 +53,8 @@
                         "Send_an_email_on_success": {
                             "inputs": {
                                 "body": {
-                                    "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: Succeeded</p>",
-                                    "Subject": "Your automation task sucessfully stopped MySQL Flexible Server @{parameters('ResourceVM')}",
+                                   "Body": "<p><strong>SUCCESS<br>\n<br>\n</strong>Status: Succeeded</p>\n<br>\n<p>New Sku: @{parameters('SkuName')}</p>",
+                                    "Subject": "Your automation task sucessfully Scaled PostgreSQL Flexible Server @{parameters('ResourceVM')} to @{parameters('SkuName')}",
                                     "To": "@parameters('EmailID')"
                                 },
                                 "host": {
@@ -80,21 +80,28 @@
                         ]
                     },
                     "runAfter": {
-                        "Stop_Flexible_Server": [
+                        "Scale_Flexible_Server": [
                             "Succeeded"
                         ]
                     },
                     "type": "If"
                 },
-                "Stop_Flexible_Server": {
-                   "inputs": {
+                "Scale_Flexible_Server": {
+                    "inputs": {
                         "host": {
                             "connection": {
                                 "name": "@parameters('$connections')['arm']['connectionId']"
                             }
                         },
-                        "method": "post",
-                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}/@{encodeURIComponent('stop')}",
+                        "method": "put",
+                        "body": {
+                            "sku": {
+                                "name": "@parameters('SkuName')",
+                                "tier": "@parameters('SkuTier')"
+                            },
+                            "location": "@parameters('Location')"
+                        },
+                        "path": "/subscriptions/@{encodeURIComponent(parameters('SubscriptionId'))}/resourcegroups/@{encodeURIComponent(parameters('ResourceGroup'))}/providers/@{encodeURIComponent('Microsoft.DBforMySQL')}/@{encodeURIComponent('flexibleServers/',parameters('ResourceVM'))}",
                         "queries": {
                             "x-ms-api-version": "2021-05-01"
                         }
@@ -114,9 +121,9 @@
             "triggers": {
                 "Recurrence": {
                     "recurrence": {
-                        "frequency":  "@parameters('Frequency')",
-                        "interval":  "@parameters('Interval')",
-                        "startTime": "@formatDateTime(parameters('stopTime'), 'yyyy-MM-ddTHH:mm:ss')",
+                        "frequency": "@parameters('Frequency')",
+                        "interval": "@parameters('Interval')",
+                        "startTime": "@formatDateTime(parameters('ScaleTime'), 'yyyy-MM-ddTHH:mm:ss')",
                         "timeZone": "@parameters('TimeZone')"
                     },
                     "type": "Recurrence"
@@ -157,13 +164,13 @@
                     "sourceParameter": "subscriptionId"
                 }
             },
-            "StopTime": {
+            "ScaleTime": {
                 "type": "String",
                 "metadata": {
-                    "displayName": "Stop Time",
+                    "displayName": "Scale Time",
                     "required": true,
                     "format": "timeFormat",
-                    "description": "Select time to Stop MySQL Flexible server"
+                    "description": "Select time to Scale MySQL Flexible server"
                 }
             },
             "TimeZone": {
@@ -437,15 +444,52 @@
                         "Line Islands Standard Time"
                     ],
                     "displayName": "Timezone",
-                    "placeholder": "Stop MySQL Flexible server at this specific time zone",
+                    "placeholder": "Scale MySQL Flexible server at this specific time zone",
                     "description": "Select time zone for task schedule",
+                    "required": true
+                }
+            },
+            "Location": {
+                "defaultValue": "",
+                "type": "String",
+                "metadata": {
+                    "displayName": "Location",
+                    "description": "Flexible server location",
+                    "required": true
+                }
+            },
+            "SkuName": {
+                "defaultValue": "",
+                "type": "String",
+                "metadata": {
+                    "displayName": "Sku Name",
+                    "description": "Flexible server Sku name ex: Standard_D2ds_v2 for 2vCores",
+                    "required": true
+                }
+            },
+            "SkuTier": {
+                "defaultValue": "",
+                "type": "String",
+                "allowedValues": [
+                    "GeneralPurpose",
+                    "Burstable",
+                    "MemoryOptimized"
+                ],
+                "metadata": {
+                    "allowedValues": [
+                        "GeneralPurpose",
+                        "Burstable",
+                        "MemoryOptimized"
+                    ],
+                    "displayName": "Sku Tier",
+                    "description": "Flexible server Sku tier",
                     "required": true
                 }
             },
             "Interval": {
                 "defaultValue": 1,
                 "type": "Int",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Interval",
                     "description": "Time interval for recurrence",
                     "required": true,
@@ -480,7 +524,7 @@
             },
             "Notify": {
                 "type": "Bool",
-                "metadata":  {
+                "metadata": {
                     "displayName": "Notify Me",
                     "description": "Notify me about task status",
                     "format": "notifier",
@@ -498,5 +542,7 @@
             }
         }
     },
-    "supportedResources": ["Microsoft.DBforMySQL/flexibleServers"]
+    "supportedResources": [
+        "Microsoft.DBforMySQL/flexibleServers"
+    ]
 }
