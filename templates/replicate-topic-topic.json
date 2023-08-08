@@ -1,5 +1,5 @@
 {
-    "id": "replicate-from-sb-to-sb",
+    "id": "replicate-from-topic-to-topic",
     "description": "Messages arriving in a topic will be replicated to another topic",
     "title": "Replicate from Service Bus topic to topic",
     "iconType": "Event",
