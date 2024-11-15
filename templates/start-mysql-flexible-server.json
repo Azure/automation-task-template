@@ -116,7 +116,7 @@
                     "recurrence": {
                         "frequency":  "@parameters('Frequency')",
                         "interval":  "@parameters('Interval')",
-                        "startTime": "@formatDateTime(parameters('stopTime'), 'yyyy-MM-ddTHH:mm:ss')",
+                        "startTime": "@formatDateTime(parameters('startTime'), 'yyyy-MM-ddTHH:mm:ss')",
                         "timeZone": "@parameters('TimeZone')"
                     },
                     "type": "Recurrence"
@@ -157,10 +157,10 @@
                     "sourceParameter": "subscriptionId"
                 }
             },
-            "StopTime": {
+            "StartTime": {
                 "type": "String",
                 "metadata": {
-                    "displayName": "Stop Time",
+                    "displayName": "Start Time",
                     "required": true,
                     "format": "timeFormat",
                     "description": "Select time to Start MySQL Flexible Server"
