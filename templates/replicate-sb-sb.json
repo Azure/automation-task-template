@@ -1,5 +1,5 @@
 {
-    "id": "replicate-from-sb-to-sb",
+    "id": "replicate-from-queue-to-queue",
     "description": "When messages arrive in a queue, replicate to another queue",
     "title": "Replicate from Service Bus queue to queue",
     "iconType": "Event",
