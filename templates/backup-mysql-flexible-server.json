@@ -22,12 +22,6 @@
                         "startTime": "@formatDateTime(parameters('BackupTime'), 'yyyy-MM-ddTHH:mm:ss')",
                         "timeZone": "@parameters('TimeZone')"
                     },
-                    "evaluatedRecurrence": {
-                        "frequency": "Hour",
-                        "interval": 3,
-                        "startTime": "2025-04-25T00:00:00",
-                        "timeZone": "Taipei Standard Time"
-                    },
                     "type": "Recurrence"
                 }
             },
