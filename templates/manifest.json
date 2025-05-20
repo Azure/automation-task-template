@@ -21,5 +21,6 @@
     "stop-mysql-flexible-server.json",
     "start-mysql-flexible-server.json",
     "scale-mysql-flexible-server.json",
-    "scale-postgresql-flexible-server.json"
+    "scale-postgresql-flexible-server.json",
+    "backup-mysql-flexible-server.json"
 ]
