@@ -1,0 +1,123 @@
+{
+  "id": "replicate-queue-to-storage",
+  "title": "Replicate from Service Bus queue to blob storage",
+  "description": "When messages arrive in Service Bus queue, abandon the message and replicate to a blob storage.",
+  "iconType": "Event",
+  "skuType": "Consumption",
+  "data": {
+      "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+              "$connections": {
+                  "defaultValue": {},
+                  "type": "Object"
+              }
+          },
+          "triggers": {
+              "When_one_or_more_messages_arrive_in_a_queue_(peek-lock)": {
+                  "recurrence": {
+                      "frequency": "Minute",
+                      "interval": 3
+                  },
+                  "evaluatedRecurrence": {
+                      "frequency": "Minute",
+                      "interval": 3
+                  },
+                  "type": "ApiConnection",
+                  "inputs": {
+                      "host": {
+                          "connection": {
+                              "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                      },
+                      "method": "get",
+                      "path": "/@{encodeURIComponent(encodeURIComponent(parameters('Queue name')))}/messages/head",
+                      "queries": {
+                          "queueType": "Main"
+                      }
+                  }
+              }
+          },
+          "actions": {
+              "Abandon_the_message_in_a_queue": {
+                  "runAfter": {},
+                  "type": "ApiConnection",
+                  "inputs": {
+                      "host": {
+                          "connection": {
+                              "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                      },
+                      "method": "post",
+                      "path": "/@{encodeURIComponent(encodeURIComponent(parameters('Queue name')))}/messages/abandon",
+                      "queries": {
+                          "lockToken": "@triggerBody()?['LockToken']",
+                          "queueType": "Main",
+                          "sessionId": "@triggerBody()?['SessionId']"
+                      }
+                  }
+              },
+              "Create_blob": {
+                  "runAfter": {},
+                  "type": "ApiConnection",
+                  "inputs": {
+                      "body": "@triggerBody()",
+                      "host": {
+                          "connection": {
+                              "name": "@parameters('$connections')['azureblob']['connectionId']"
+                          }
+                      },
+                      "method": "post",
+                      "path": "/datasets/default/files",
+                      "queries": {
+                          "folderPath": "/@{parameters('Container name')}",
+                          "name": "svc-bus-@{parameters('Queue name')}-msg-@{guid()}",
+                          "queryParametersSingleEncoded": true
+                      }
+                  },
+                  "runtimeConfiguration": {
+                      "contentTransfer": {
+                          "transferMode": "Chunked"
+                      }
+                  }
+              }
+          },
+          "outputs": {}
+      },
+      "parameters": {
+          "Container name": {
+              "type": "String",
+              "defaultValue": "backup-test-queue",
+              "metadata": {
+                  "displayName": "blob storage container name",
+                  "format": "",
+                  "required": false,
+                  "description": "Name of the blob storage container"
+              }
+          },
+          "Queue name": {
+              "type": "String",
+              "defaultValue": "test-queue",
+              "metadata": {
+                  "displayName": "Queue name",
+                  "format": "",
+                  "required": false,
+                  "description": "Name of the queue"
+              }
+          }
+      },
+      "connections": {
+          "azureblob": {
+              "id": "/subscriptions/0000-0000/providers/Microsoft.Web/locations/westeurope/managedApis/azureblob",
+              "connectionId": "",
+              "connectionName": ""
+          },
+          "servicebus": {
+              "id": "/subscriptions/0000-0000/providers/Microsoft.Web/locations/westeurope/managedApis/servicebus",
+              "connectionId": "",
+              "connectionName": ""
+          }
+      }
+  }
+}
